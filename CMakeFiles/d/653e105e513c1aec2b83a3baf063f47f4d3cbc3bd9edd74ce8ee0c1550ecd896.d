@@ -117,99 +117,27 @@ StaticGLEW_autogen/timestamp: \
   /Users/brandondiaz/Qt/6.2.4/macos/lib/cmake/Qt6Xml/Qt6XmlTargets.cmake \
   /Users/brandondiaz/Qt/6.2.4/macos/lib/cmake/Qt6Xml/Qt6XmlVersionlessTargets.cmake \
   /Users/brandondiaz/Qt/Qt\ Creator.app/Contents/Resources/package-manager/auto-setup.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCCompiler.cmake.in \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCCompilerABI.c \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCInformation.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCXXCompiler.cmake.in \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCXXCompilerABI.cpp \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCXXInformation.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeCompilerIdDetection.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeDetermineCCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeDetermineCXXCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeDetermineCompileFeatures.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeDetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeDetermineCompilerABI.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeDetermineCompilerId.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeDetermineSystem.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeFindBinUtils.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeFindDependencyMacro.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeGenericSystem.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeNinjaFindMake.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeParseArguments.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeParseImplicitIncludeInfo.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeParseImplicitLinkInfo.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeParseLibraryArchitecture.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeSystem.cmake.in \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeTestCCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeTestCXXCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CMakeTestCompilerCommon.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CheckCSourceCompiles.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CheckCXXCompilerFlag.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CheckCXXSourceCompiles.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CheckIncludeFile.c.in \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CheckIncludeFile.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/CheckLibraryExists.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/AppleClang-C.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/AppleClang-CXX.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Borland-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Bruce-C-DetermineCompiler.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Clang-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Clang.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Compaq-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Cray-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/GHS-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/GNU-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/GNU.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/HP-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/IAR-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Intel-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/LCC-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/PGI-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/SCO-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/SDCC-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/SunPro-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/TI-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/XL-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/XLClang-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/zOS-C-DetermineCompiler.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/FindOpenGL.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/FindPackageHandleStandardArgs.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/FindPackageMessage.cmake \
@@ -217,14 +145,12 @@ StaticGLEW_autogen/timestamp: \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Internal/CheckCompilerFlag.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Internal/CheckFlagCommonConfig.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Internal/CheckSourceCompiles.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Internal/FeatureTesting.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/MacroAddFileDependencies.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/Apple-AppleClang-C.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/Apple-AppleClang-CXX.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/Apple-Clang-C.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/Apple-Clang-CXX.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/Apple-Clang.cmake \
-  /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/Darwin-Determine-CXX.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/Darwin-Initialize.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/Darwin.cmake \
   /Users/brandondiaz/Qt/Tools/CMake/CMake.app/Contents/share/cmake-3.23/Modules/Platform/UnixPaths.cmake \

@@ -90,14 +90,8 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
         resources/shaders/default.vert
         resources/shaders/texture.frag
         resources/shaders/texture.vert
-        resources/images/water\ texture\ Small.png
-        resources/images/Displacement\ Texture.png
-        resources/images/displacement\ map\ 2\ Small.png
-        resources/images/water\ 2.png
-        resources/images/blue\ Small.png
-        resources/images/watercolor\ Small.png
-        resources/images/cloudy\ Small.png
-        resources/images/breeze\ Small.png
+        resources/images/displacement_texture.png
+        resources/images/water_texture.png
 )
 
 # GLEW: this provides support for Windows (including 64-bit)

@@ -138,7 +138,7 @@ void Realtime::initializeGL() {
     glBindVertexArray(0);
 
 
-    QString water_filepath = QString(":/resources/images/breeze Small.png"); // Prepare filepath
+    QString water_filepath = QString(":/resources/images/water_texture.png"); // Prepare filepath
     m_water_image = QImage(water_filepath); // Obtain image from filepath
     m_water_image = m_water_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
     glGenTextures(1, &m_water_texture); // Generate water texture
@@ -152,7 +152,7 @@ void Realtime::initializeGL() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0); // Unbind water texture
 
-    QString displacement_filepath = QString(":/resources/images/cloudy Small.png");
+    QString displacement_filepath = QString(":/resources/images/displacement_texture.png");
     m_displacement_image = QImage(displacement_filepath);
     m_displacement_image = m_displacement_image.convertToFormat(QImage::Format_RGBA8888).mirrored();
     glGenTextures(1, &m_displacement_texture);
