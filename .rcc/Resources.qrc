@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="resources/shaders/default.frag">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/shaders/default.frag</file>
+    <file alias="resources/shaders/default.vert">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/shaders/default.vert</file>
+    <file alias="resources/shaders/texture.frag">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/shaders/texture.frag</file>
+    <file alias="resources/shaders/texture.vert">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/shaders/texture.vert</file>
+    <file alias="resources/images/water texture Small.png">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/images/water texture Small.png</file>
+    <file alias="resources/images/Displacement Texture.png">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/images/Displacement Texture.png</file>
+    <file alias="resources/images/displacement map 2 Small.png">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/images/displacement map 2 Small.png</file>
+    <file alias="resources/images/water 2.png">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/images/water 2.png</file>
+    <file alias="resources/images/blue Small.png">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/images/blue Small.png</file>
+    <file alias="resources/images/watercolor Small.png">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/images/watercolor Small.png</file>
+    <file alias="resources/images/cloudy Small.png">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/images/cloudy Small.png</file>
+    <file alias="resources/images/breeze Small.png">/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/resources/images/breeze Small.png</file>
+  </qresource>
+</RCC>
+

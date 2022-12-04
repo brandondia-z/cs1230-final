@@ -1,0 +1,119 @@
+cmake_minimum_required(VERSION 3.16)
+
+# Sets project name
+project(cs1230-final LANGUAGES CXX C)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+# Sets C++ standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Specifies required Qt components
+find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Gui)
+find_package(Qt6 REQUIRED COMPONENTS OpenGL)
+find_package(Qt6 REQUIRED COMPONENTS OpenGLWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Xml)
+
+# Allows you to include files from within those directories, without prefixing their filepaths
+include_directories(src)
+
+# Specifies .cpp and .h files to be passed to the compiler
+add_executable(${PROJECT_NAME}
+    src/main.cpp
+
+    src/realtime.cpp
+    src/mainwindow.cpp
+    src/settings.cpp
+    src/utils/scenefilereader.cpp
+    src/utils/sceneparser.cpp
+    src/camera/camera.cpp
+    src/shapes/Cone.cpp
+    src/shapes/Cube.cpp
+    src/shapes/Cylinder.cpp
+    src/shapes/Sphere.cpp
+    src/shapes/mesh.cpp
+    src/raytracer/implicitShapes.cpp
+    src/raytracer/lights.cpp
+    src/raytracer/raytracer.cpp
+    src/raytracer/raytracescene.cpp
+
+    src/debug.h
+    src/mainwindow.h
+    src/realtime.h
+    src/settings.h
+    src/shaderloader.h
+    src/utils/scenedata.h
+    src/utils/scenefilereader.h
+    src/utils/sceneparser.h
+    src/utils/shaderloader.h
+    src/utils/rgba.h
+    src/utils/OBJ_Loader.h
+    src/camera/camera.h
+    src/shapes/Cone.h
+    src/shapes/Cube.h
+    src/shapes/Cylinder.h
+    src/shapes/Sphere.h
+    src/shapes/mesh.h
+    src/raytracer/raytracer.h
+    src/raytracer/raytracescene.h
+)
+
+# GLM: this creates its library and allows you to `#include "glm/..."`
+add_subdirectory(glm)
+
+# GLEW: this creates its library and allows you to `#include "GL/glew.h"`
+add_library(StaticGLEW STATIC glew/src/glew.c)
+include_directories(${PROJECT_NAME} PRIVATE glew/include)
+
+# Specifies libraries to be linked (Qt components, glew, etc)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt::Core
+    Qt::Gui
+    Qt::OpenGL
+    Qt::OpenGLWidgets
+    Qt::Xml
+    StaticGLEW
+)
+
+# Specifies other files
+qt6_add_resources(${PROJECT_NAME} "Resources"
+    PREFIX
+        "/"
+    FILES
+        resources/shaders/default.frag
+        resources/shaders/default.vert
+        resources/shaders/texture.frag
+        resources/shaders/texture.vert
+        resources/images/water\ texture\ Small.png
+        resources/images/Displacement\ Texture.png
+        resources/images/displacement\ map\ 2\ Small.png
+        resources/images/water\ 2.png
+        resources/images/blue\ Small.png
+        resources/images/watercolor\ Small.png
+        resources/images/cloudy\ Small.png
+        resources/images/breeze\ Small.png
+)
+
+# GLEW: this provides support for Windows (including 64-bit)
+if (WIN32)
+  add_compile_definitions(GLEW_STATIC)
+  target_link_libraries(${PROJECT_NAME} PRIVATE
+    opengl32
+    glu32
+  )
+endif()
+
+# Set this flag to silence warnings on Windows
+if (MSVC OR MSYS OR MINGW)
+  set(CMAKE_CXX_FLAGS "-Wno-volatile")
+endif()
+# Set this flag to silence warnings on MacOS
+if (APPLE)
+  set(CMAKE_CXX_FLAGS "-Wno-deprecated-volatile")
+endif()
