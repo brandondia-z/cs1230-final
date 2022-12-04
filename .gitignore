@@ -177,3 +177,8 @@ Thumbs.db
 *.dll
 *.exe
 
+# Misc. stuff that was leftover
+*.ninja_deps
+*.ninja_log
+*.cmake
+*.rcc
