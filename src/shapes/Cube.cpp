@@ -13,23 +13,53 @@ void Cube::makeTile(glm::vec3 topLeft,
                     glm::vec3 bottomLeft,
                     glm::vec3 bottomRight) {
 
-    // upper triangle
-    glm::vec3 upperNormal = glm::normalize(glm::cross(topLeft - bottomLeft, bottomLeft - topRight));
-    Cube::insertVec3(m_vertexData, topLeft);
-    Cube::insertVec3(m_vertexData, upperNormal);
-    Cube::insertVec3(m_vertexData, bottomLeft);
-    Cube::insertVec3(m_vertexData, upperNormal);
-    Cube::insertVec3(m_vertexData, topRight);
-    Cube::insertVec3(m_vertexData, upperNormal);
+//    // upper triangle
+//    glm::vec3 upperNormal = glm::normalize(glm::cross(topLeft - bottomLeft, bottomLeft - topRight));
+//    Cube::insertVec3(m_vertexData, topLeft);
+//    Cube::insertVec3(m_vertexData, upperNormal);
+//    Cube::insertVec3(m_vertexData, bottomLeft);
+//    Cube::insertVec3(m_vertexData, upperNormal);
+//    Cube::insertVec3(m_vertexData, topRight);
+//    Cube::insertVec3(m_vertexData, upperNormal);
 
-    // lower triangle
-    glm::vec3 lowerNormal = glm::normalize(glm::cross(topLeft - bottomLeft, bottomLeft - topRight));
-    Cube::insertVec3(m_vertexData, topRight);
-    Cube::insertVec3(m_vertexData, lowerNormal);
-    Cube::insertVec3(m_vertexData, bottomLeft);
-    Cube::insertVec3(m_vertexData, lowerNormal);
-    Cube::insertVec3(m_vertexData, bottomRight);
-    Cube::insertVec3(m_vertexData, lowerNormal);
+//    // lower triangle
+//    glm::vec3 lowerNormal = glm::normalize(glm::cross(topLeft - bottomLeft, bottomLeft - topRight));
+//    Cube::insertVec3(m_vertexData, topRight);
+//    Cube::insertVec3(m_vertexData, lowerNormal);
+//    Cube::insertVec3(m_vertexData, bottomLeft);
+//    Cube::insertVec3(m_vertexData, lowerNormal);
+//    Cube::insertVec3(m_vertexData, bottomRight);
+//    Cube::insertVec3(m_vertexData, lowerNormal);
+
+    glm::vec3 edge1 = topLeft - bottomLeft;
+    glm::vec3 edge2 = bottomLeft - topRight;
+    glm::vec3 upperNormal = glm::normalize(glm::cross(edge1, edge2));
+    insertVec3(m_vertexData, topLeft);
+    insertVec3(m_vertexData, upperNormal);
+    insertVec2(m_vertexData, getUV(topLeft));
+
+    insertVec3(m_vertexData, bottomLeft);
+    insertVec3(m_vertexData, upperNormal);
+    insertVec2(m_vertexData, getUV(bottomLeft));
+
+    insertVec3(m_vertexData, topRight);
+    insertVec3(m_vertexData, upperNormal);
+    insertVec2(m_vertexData, getUV(topRight));
+
+    glm::vec3 edge3 = topLeft - bottomLeft;
+    glm::vec3 edge4 = bottomLeft - topRight;
+    glm::vec3 lowerNormal = glm::normalize(glm::cross(edge3, edge4));
+    insertVec3(m_vertexData, topRight);
+    insertVec3(m_vertexData, lowerNormal);
+    insertVec2(m_vertexData, getUV(topRight));
+
+    insertVec3(m_vertexData, bottomLeft);
+    insertVec3(m_vertexData, lowerNormal);
+    insertVec2(m_vertexData, getUV(bottomLeft));
+
+    insertVec3(m_vertexData, bottomRight);
+    insertVec3(m_vertexData, lowerNormal);
+    insertVec2(m_vertexData, getUV(bottomRight));
 }
 
 void Cube::makeFace(glm::vec3 topLeft,
@@ -144,4 +174,40 @@ void Cube::insertVec3(std::vector<float> &data, glm::vec3 v) {
     data.push_back(v.x);
     data.push_back(v.y);
     data.push_back(v.z);
+}
+
+glm::vec2 Cube::getUV(glm::vec3 objPoint) {
+    float u;
+    float v;
+    if (objPoint.x ==0.5f) {
+        u = -(objPoint.z  + 0.5f);
+        v = objPoint.y  + 0.5f;
+        // bottom left
+    } else if (objPoint.y== 0.5f) {
+        v = -(objPoint.z + 0.5f);
+        u = (objPoint.x  + 0.5f);
+        // middle bottom
+    }  else if (objPoint.z == 0.5f) {
+        u = objPoint.x  + 0.5f;
+        v = objPoint.y  + 0.5f;
+        // top left
+    }  else if (objPoint.x == -0.5f) {
+        v = objPoint.y  + 0.5f;
+        u = objPoint.z  + 0.5f;
+        // middle top
+    } else if (objPoint.y == -0.5f) {
+        u = objPoint.x + 0.5f;
+        v = objPoint.z + 0.5f;
+        // bottom right
+    } else if (objPoint.z == -0.5f) {
+        v = (objPoint.y + 0.5f);
+        u = -(objPoint.x + 0.5f);
+        // top right
+    }
+    return glm::vec2(u, v);
+}
+
+void Cube::insertVec2(std::vector<float> &data, glm::vec2 v) {
+    data.push_back(v.x);
+    data.push_back(v.y);
 }

@@ -171,49 +171,49 @@ void Realtime::initializeGL() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0); // Unbind displacement texture
 
-    glUseProgram(m_texture_shader);
-    GLint waterTextureLocation = glGetUniformLocation(m_texture_shader, "water_sampler");
+    glUseProgram(m_lighting_shader);
+    GLint waterTextureLocation = glGetUniformLocation(m_lighting_shader, "water_sampler");
     glUniform1i(waterTextureLocation, 0);
-    GLint displacementTextureLocation = glGetUniformLocation(m_texture_shader, "displacement_sampler");
+    GLint displacementTextureLocation = glGetUniformLocation(m_lighting_shader, "displacement_sampler");
     glUniform1i(displacementTextureLocation, 1);
     glUseProgram(0);
 
-    std::vector<GLfloat> fullscreen_quad_data =
-    { //     POSITIONS    //
-        -1.f,  1.f,  0.f,
-         0.f,  1.f,  0.f,
+//    std::vector<GLfloat> fullscreen_quad_data =
+//    { //     POSITIONS    //
+//        -1.f,  1.f,  0.f,
+//         0.f,  1.f,  0.f,
 
-        -1.f, -1.f,  0.f,
-         0.f,  0.f,  0.f,
+//        -1.f, -1.f,  0.f,
+//         0.f,  0.f,  0.f,
 
-         1.f, -1.f,  0.f,
-         1.f,  0.f,  0.f,
+//         1.f, -1.f,  0.f,
+//         1.f,  0.f,  0.f,
 
-         1.f,  1.f,  0.f,
-         1.f,  1.f,  0.f,
+//         1.f,  1.f,  0.f,
+//         1.f,  1.f,  0.f,
 
-        -1.f,  1.f,  0.f,
-         0.f,  1.f,  0.f,
+//        -1.f,  1.f,  0.f,
+//         0.f,  1.f,  0.f,
 
-         1.f, -1.f,  0.f,
-         1.f,  0.f,  0.f
-    };
+//         1.f, -1.f,  0.f,
+//         1.f,  0.f,  0.f
+//    };
 
-    glGenBuffers(1, &m_fullscreen_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_fullscreen_vbo);
-    glBufferData(GL_ARRAY_BUFFER, fullscreen_quad_data.size()*sizeof(GLfloat), fullscreen_quad_data.data(), GL_STATIC_DRAW);
-    glGenVertexArrays(1, &m_fullscreen_vao);
-    glBindVertexArray(m_fullscreen_vao);
+//    glGenBuffers(1, &m_fullscreen_vbo);
+//    glBindBuffer(GL_ARRAY_BUFFER, m_fullscreen_vbo);
+//    glBufferData(GL_ARRAY_BUFFER, fullscreen_quad_data.size()*sizeof(GLfloat), fullscreen_quad_data.data(), GL_STATIC_DRAW);
+//    glGenVertexArrays(1, &m_fullscreen_vao);
+//    glBindVertexArray(m_fullscreen_vao);
 
-    glEnableVertexAttribArray(0); // OpenGL coords
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-    glEnableVertexAttribArray(1); // UV coords
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+//    glEnableVertexAttribArray(0); // OpenGL coords
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
+//    glEnableVertexAttribArray(1); // UV coords
+//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+//    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//    glBindVertexArray(0);
 
-    makeFBO();
+//    makeFBO();
 
     m_setupComplete = true;
 }
@@ -221,174 +221,173 @@ void Realtime::initializeGL() {
 void Realtime::paintGL() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glUseProgram(m_texture_shader);
-    GLint waterTimeLocation = glGetUniformLocation(m_texture_shader, "water_time");
-    glUniform1i(waterTimeLocation, m_water_time);
-    GLint dispTimeLocation = glGetUniformLocation(m_texture_shader, "displacement_time");
-    glUniform1i(dispTimeLocation, m_displacement_time);
-    glUseProgram(0);
-
-    paintTexture(m_water_texture, m_displacement_texture, false, false, false, false);
-
-//    Students: anything requiring OpenGL calls every frame should be done here
-
 //    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-//    Debug::glErrorCheck();
-
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //    glViewport(0, 0, m_screen_width, m_screen_height);
 
-//    // Activate the shader program by calling glUseProgram with `m_lighint_shader`
-//    glUseProgram(m_lighting_shader);
+    // Activate the shader program by calling glUseProgram with `m_lighint_shader`
+    glUseProgram(m_lighting_shader);
 
-//    // Pass in m_viewMatrix and m_projMatrix
-//    GLint viewLocation = glGetUniformLocation(m_lighting_shader, "viewMat");
-//    glUniformMatrix4fv(viewLocation, 1, GL_FALSE, &m_viewMatrix[0][0]);
+    // Time variables to help create scrolling textures
+    GLint waterTimeLocation = glGetUniformLocation(m_lighting_shader, "water_time");
+    glUniform1i(waterTimeLocation, m_water_time);
+    GLint dispTimeLocation = glGetUniformLocation(m_lighting_shader, "displacement_time");
+    glUniform1i(dispTimeLocation, m_displacement_time);
 
-//    GLint projLocation = glGetUniformLocation(m_lighting_shader, "projMat");
-//    glUniformMatrix4fv(projLocation, 1, GL_FALSE, &m_projMatrix[0][0]);
+    // Pass in m_viewMatrix and m_projMatrix
+    GLint viewLocation = glGetUniformLocation(m_lighting_shader, "viewMat");
+    glUniformMatrix4fv(viewLocation, 1, GL_FALSE, &m_viewMatrix[0][0]);
 
-//    // Pass m_ka into the fragment shader as a uniform
-//    GLint ambientLocation = glGetUniformLocation(m_lighting_shader, "ambient");
-//    glUniform1f(ambientLocation, m_data.globalData.ka);
+    GLint projLocation = glGetUniformLocation(m_lighting_shader, "projMat");
+    glUniformMatrix4fv(projLocation, 1, GL_FALSE, &m_projMatrix[0][0]);
 
-//    // Pass light position and m_kd into the fragment shader as a uniform
-//    GLint diffuseLocation = glGetUniformLocation(m_lighting_shader, "diffuse");
-//    glUniform1f(diffuseLocation, m_data.globalData.kd);
+    // Pass m_ka into the fragment shader as a uniform
+    GLint ambientLocation = glGetUniformLocation(m_lighting_shader, "ambient");
+    glUniform1f(ambientLocation, m_data.globalData.ka);
 
-//    // Pass shininess, m_ks, and world-space camera position
-//    GLint specularLocation = glGetUniformLocation(m_lighting_shader, "specular");
-//    glUniform1f(specularLocation, m_data.globalData.ks);
+    // Pass light position and m_kd into the fragment shader as a uniform
+    GLint diffuseLocation = glGetUniformLocation(m_lighting_shader, "diffuse");
+    glUniform1f(diffuseLocation, m_data.globalData.kd);
 
-//    glm::vec4 cameraPos = inverse(m_viewMatrix) * glm::vec4{0, 0, 0, 1}; // viewMat * origin
-//    GLint cameraPosLocation = glGetUniformLocation(m_lighting_shader, "cameraPos");
-//    glUniform4fv(cameraPosLocation, 1, &cameraPos[0]);
+    // Pass shininess, m_ks, and world-space camera position
+    GLint specularLocation = glGetUniformLocation(m_lighting_shader, "specular");
+    glUniform1f(specularLocation, m_data.globalData.ks);
 
-//    int numLights = m_data.lights.size();
+    glm::vec4 cameraPos = inverse(m_viewMatrix) * glm::vec4{0, 0, 0, 1}; // viewMat * origin
+    GLint cameraPosLocation = glGetUniformLocation(m_lighting_shader, "cameraPos");
+    glUniform4fv(cameraPosLocation, 1, &cameraPos[0]);
 
-//    GLint numLightsLocation = glGetUniformLocation(m_lighting_shader, "numLights");
-//    glUniform1i(numLightsLocation, numLights);
+    int numLights = m_data.lights.size();
 
-//    GLint typeLocation;
-//    GLint colorLocation;
-//    GLint lightDirLocation;
-//    GLint lightPosLocation;
-//    GLint attenuationLocation;
-//    GLint angleLocation;
-//    GLint penumbraLocation;
-//    for (int i = 0; i < numLights; i++) {
-//        int lightType;
-//        switch(m_data.lights[i].type) {
-//            case LightType::LIGHT_POINT :
-//                lightType = 0;
-//                lightPosLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightPos").c_str());
-//                glUniform4fv(lightPosLocation, 1, &m_data.lights[i].pos[0]);
-//                break;
-//            case LightType::LIGHT_DIRECTIONAL :
-//                lightType = 1;
-//                lightDirLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightDir").c_str());
-//                glUniform4fv(lightDirLocation, 1, &m_data.lights[i].dir[0]);
-//                break;
-//            case LightType::LIGHT_SPOT :
-//                lightType = 2;
-//                lightDirLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightDir").c_str());
-//                glUniform4fv(lightDirLocation, 1, &m_data.lights[i].dir[0]);
+    GLint numLightsLocation = glGetUniformLocation(m_lighting_shader, "numLights");
+    glUniform1i(numLightsLocation, numLights);
 
-//                lightPosLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightPos").c_str());
-//                glUniform4fv(lightPosLocation, 1, &m_data.lights[i].pos[0]);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_water_texture);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, m_displacement_texture);
 
-//                angleLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].angle").c_str());
-//                glUniform1f(angleLocation, m_data.lights[i].angle);
+    GLint typeLocation;
+    GLint colorLocation;
+    GLint lightDirLocation;
+    GLint lightPosLocation;
+    GLint attenuationLocation;
+    GLint angleLocation;
+    GLint penumbraLocation;
+    for (int i = 0; i < numLights; i++) {
+        int lightType;
+        switch(m_data.lights[i].type) {
+            case LightType::LIGHT_POINT :
+                lightType = 0;
+                lightPosLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightPos").c_str());
+                glUniform4fv(lightPosLocation, 1, &m_data.lights[i].pos[0]);
+                break;
+            case LightType::LIGHT_DIRECTIONAL :
+                lightType = 1;
+                lightDirLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightDir").c_str());
+                glUniform4fv(lightDirLocation, 1, &m_data.lights[i].dir[0]);
+                break;
+            case LightType::LIGHT_SPOT :
+                lightType = 2;
+                lightDirLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightDir").c_str());
+                glUniform4fv(lightDirLocation, 1, &m_data.lights[i].dir[0]);
 
-//                penumbraLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].penumbra").c_str());
-//                glUniform1f(penumbraLocation, m_data.lights[i].penumbra);
-//                break;
-//            default : // default -> Directional
-//                lightType = 1;
-//                lightDirLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightDir").c_str());
-//                glUniform4fv(lightDirLocation, 1, &m_data.lights[i].dir[0]);
-//                break;
-//        }
+                lightPosLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightPos").c_str());
+                glUniform4fv(lightPosLocation, 1, &m_data.lights[i].pos[0]);
 
-//        typeLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].type").c_str());
-//        glUniform1i(typeLocation, lightType);
+                angleLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].angle").c_str());
+                glUniform1f(angleLocation, m_data.lights[i].angle);
 
-//        colorLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].color").c_str());
-//        glUniform4fv(colorLocation, 1, &m_data.lights[i].color[0]);
+                penumbraLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].penumbra").c_str());
+                glUniform1f(penumbraLocation, m_data.lights[i].penumbra);
+                break;
+            default : // default -> Directional
+                lightType = 1;
+                lightDirLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].lightDir").c_str());
+                glUniform4fv(lightDirLocation, 1, &m_data.lights[i].dir[0]);
+                break;
+        }
 
-//        attenuationLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].attenuation").c_str());
-//        glUniform3fv(attenuationLocation, 1, &m_data.lights[i].function[0]);
-//    }
+        typeLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].type").c_str());
+        glUniform1i(typeLocation, lightType);
 
-//    // Loop over shapes in scene
-//    for (RenderShapeData &shape : m_data.shapes) {
+        colorLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].color").c_str());
+        glUniform4fv(colorLocation, 1, &m_data.lights[i].color[0]);
 
-//        // Pass in m_model as a uniform into the shader program
-//        GLint modelLocation = glGetUniformLocation(m_lighting_shader, "modelMat");
-//        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, &shape.ctm[0][0]);
+        attenuationLocation = glGetUniformLocation(m_lighting_shader, ("lighting[" + std::to_string(i) + "].attenuation").c_str());
+        glUniform3fv(attenuationLocation, 1, &m_data.lights[i].function[0]);
+    }
 
-//        glm::mat3 itModelMat = glm::inverse(glm::transpose(shape.ctm));
-//        GLint inverseLocation = glGetUniformLocation(m_lighting_shader, "itModelMat");
-//        glUniformMatrix3fv(inverseLocation, 1, GL_FALSE, &itModelMat[0][0]);
+    // Loop over shapes in scene
+    for (RenderShapeData &shape : m_data.shapes) {
 
-//        GLint isMeshLocation = glGetUniformLocation(m_lighting_shader, "isMesh");
-//        glUniform1i(isMeshLocation, m_isMesh);
+        // Pass in m_model as a uniform into the shader program
+        GLint modelLocation = glGetUniformLocation(m_lighting_shader, "modelMat");
+        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, &shape.ctm[0][0]);
 
-//        GLint shininessLocation = glGetUniformLocation(m_lighting_shader, "shininess");
-//        glUniform1f(shininessLocation, shape.primitive.material.shininess);
+        glm::mat3 itModelMat = glm::inverse(glm::transpose(shape.ctm));
+        GLint inverseLocation = glGetUniformLocation(m_lighting_shader, "itModelMat");
+        glUniformMatrix3fv(inverseLocation, 1, GL_FALSE, &itModelMat[0][0]);
 
-//        GLint materialAmbient = glGetUniformLocation(m_lighting_shader, "materialAmbient");
-//        glUniform4fv(materialAmbient, 1, &shape.primitive.material.cAmbient[0]);
+        GLint isMeshLocation = glGetUniformLocation(m_lighting_shader, "isMesh");
+        glUniform1i(isMeshLocation, m_isMesh);
 
-//        GLint materialDiffuse = glGetUniformLocation(m_lighting_shader, "materialDiffuse");
-//        glUniform4fv(materialDiffuse, 1, &shape.primitive.material.cDiffuse[0]);
+        GLint shininessLocation = glGetUniformLocation(m_lighting_shader, "shininess");
+        glUniform1f(shininessLocation, shape.primitive.material.shininess);
 
-//        GLint materialSpecular = glGetUniformLocation(m_lighting_shader, "materialSpecular");
-//        glUniform4fv(materialSpecular, 1, &shape.primitive.material.cSpecular[0]);
+        GLint materialAmbient = glGetUniformLocation(m_lighting_shader, "materialAmbient");
+        glUniform4fv(materialAmbient, 1, &shape.primitive.material.cAmbient[0]);
 
-//        // Draw Command
-//        switch (shape.primitive.type) {
-//            case PrimitiveType::PRIMITIVE_CONE:
-//                glBindVertexArray(m_coneVao);
-//                m_numTriangles = m_coneData.size() / 6.f;
-//                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
-//                glBindVertexArray(0);
-//                break;
-//            case PrimitiveType::PRIMITIVE_CUBE:
-//                glBindVertexArray(m_cubeVao);
-//                m_numTriangles = m_cubeData.size() / 6.f;
-//                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
-//                glBindVertexArray(0);
-//                break;
-//            case PrimitiveType::PRIMITIVE_CYLINDER:
-//                glBindVertexArray(m_cylinderVao);
-//                m_numTriangles = m_cylinderData.size() / 6.f;
-//                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
-//                glBindVertexArray(0);
-//                break;
-//            case PrimitiveType::PRIMITIVE_SPHERE:
-//                glBindVertexArray(m_sphereVao);
-//                m_numTriangles = m_sphereData.size() / 6.f;
-//                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
-//                glBindVertexArray(0);
-//                break;
-//            case PrimitiveType::PRIMITIVE_MESH:
-//                glBindVertexArray(m_meshVao);
-//                m_numTriangles = m_meshData.size() / 6.f;
-//                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
-//                glBindVertexArray(0);
-//                break;
-//            default:
-//                glBindVertexArray(m_cubeVao);
-//                m_numTriangles = m_cubeData.size() / 6.f;
-//                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
-//                glBindVertexArray(0);
-//                break;
-//        }
-//    }
+        GLint materialDiffuse = glGetUniformLocation(m_lighting_shader, "materialDiffuse");
+        glUniform4fv(materialDiffuse, 1, &shape.primitive.material.cDiffuse[0]);
 
-//    // Deactivate the shader program by passing 0 into
-//    glUseProgram(0);
+        GLint materialSpecular = glGetUniformLocation(m_lighting_shader, "materialSpecular");
+        glUniform4fv(materialSpecular, 1, &shape.primitive.material.cSpecular[0]);
+
+        // Draw Command
+        switch (shape.primitive.type) {
+            case PrimitiveType::PRIMITIVE_CONE:
+                glBindVertexArray(m_coneVao);
+                m_numTriangles = m_coneData.size() / 6.f;
+                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
+                glBindVertexArray(0);
+                break;
+            case PrimitiveType::PRIMITIVE_CUBE:
+                glBindVertexArray(m_cubeVao);
+                m_numTriangles = m_cubeData.size() / 6.f;
+                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
+                glBindVertexArray(0);
+                break;
+            case PrimitiveType::PRIMITIVE_CYLINDER:
+                glBindVertexArray(m_cylinderVao);
+                m_numTriangles = m_cylinderData.size() / 6.f;
+                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
+                glBindVertexArray(0);
+                break;
+            case PrimitiveType::PRIMITIVE_SPHERE:
+                glBindVertexArray(m_sphereVao);
+                m_numTriangles = m_sphereData.size() / 6.f;
+                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
+                glBindVertexArray(0);
+                break;
+            case PrimitiveType::PRIMITIVE_MESH:
+                glBindVertexArray(m_meshVao);
+                m_numTriangles = m_meshData.size() / 6.f;
+                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
+                glBindVertexArray(0);
+                break;
+            default:
+                glBindVertexArray(m_cubeVao);
+                m_numTriangles = m_cubeData.size() / 6.f;
+                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
+                glBindVertexArray(0);
+                break;
+        }
+    }
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    // Deactivate the shader program by passing 0 into
+    glUseProgram(0);
 
 //    glBindFramebuffer(GL_FRAMEBUFFER, m_defaultFBO);
 
@@ -531,10 +530,20 @@ void Realtime::bindCube() {
     }
     m_cubeData = m_cube.generateShape();
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m_cubeData.size(), m_cubeData.data(), GL_STATIC_DRAW); // passes cube data into vbo
-    glEnableVertexAttribArray(0); // adds position attribute
-    glEnableVertexAttribArray(1); // adds normal attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    // ~~ PRE SARAH CODE
+//    glEnableVertexAttribArray(0); // adds position attribute
+//    glEnableVertexAttribArray(1); // adds normal attribute
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
+//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+
+    // ~~ SARAH CODE
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(0 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(6 * sizeof(GLfloat)));
+
     glBindBuffer(GL_ARRAY_BUFFER, 0); // Unbinds cube Vbo
 }
 

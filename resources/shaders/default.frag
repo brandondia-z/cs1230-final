@@ -3,9 +3,18 @@
 // In variables for the world-space position and normal
 in vec3 worldPosition;
 in vec3 worldNormal;
+in vec2 uvCoords;
 
 // Output color
 out vec4 fragColor;
+
+// textures
+uniform sampler2D water_sampler;
+uniform sampler2D displacement_sampler;
+
+// scrolling
+uniform int water_time;
+uniform int displacement_time;
 
 // Ambient lighting
 uniform float ambient;
@@ -34,6 +43,14 @@ uniform float shininess;
 uniform vec4 materialSpecular;
 
 uniform vec4 cameraPos;
+
+//void main() {
+//    fragColor = vec4(1.f);
+////     Set fragColor using the sampler2D at the UV coordinate
+//    vec4 displacement = texture(displacement_sampler,
+//                                 vec2(uvCoords.x+(displacement_time/1200.f), uvCoords.y-(displacement_time/1200.f)));
+//    fragColor = texture(water_sampler, vec2(uvCoords.x+displacement.g-(water_time/640.f), uvCoords.y+displacement.g+(water_time/640.f)));
+//}
 
 void main() {
 
@@ -143,5 +160,7 @@ void main() {
 
     }
     fragColor = vec4(red, green, blue, 1.f);
+    vec4 displacement = texture(displacement_sampler,vec2(uvCoords.x+(displacement_time/1200.f), uvCoords.y-(displacement_time/1200.f)));
+    fragColor = texture(water_sampler,vec2(uvCoords.x+displacement.g-(water_time/640.f), uvCoords.y+displacement.g+(water_time/640.f)));
 
 }

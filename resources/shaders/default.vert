@@ -3,10 +3,12 @@
 // Object-space position
 layout(location = 0) in vec3 objectPosition;
 layout(location = 1) in vec3 objectNormal;
+layout(location = 2) in vec2 layoutUvCoords;
 
 // World-space position and normal,
 out vec3 worldPosition;
 out vec3 worldNormal;
+out vec2 uvCoords;
 
 // Model matrix (CTM)
 uniform mat4 modelMat;
@@ -18,6 +20,8 @@ uniform mat3 itModelMat;
 uniform bool isMesh;
 
 void main() {
+
+    uvCoords = layoutUvCoords;
 
     if (isMesh) {
         worldPosition = objectPosition;
