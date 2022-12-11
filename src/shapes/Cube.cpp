@@ -139,35 +139,35 @@ void Cube::makeFace(glm::vec3 topLeft,
 
 void Cube::setVertexData() {
 
-     Cube::makeFace(glm::vec3(-0.5f,  0.5f, 0.5f),
-              glm::vec3( 0.5f,  0.5f, 0.5f),
-              glm::vec3(-0.5f, -0.5f, 0.5f),
-              glm::vec3( 0.5f, -0.5f, 0.5f));
+//     Cube::makeFace(glm::vec3(-0.5f,  0.5f, 0.5f),
+//              glm::vec3( 0.5f,  0.5f, 0.5f),
+//              glm::vec3(-0.5f, -0.5f, 0.5f),
+//              glm::vec3( 0.5f, -0.5f, 0.5f));
 
-     Cube::makeFace(glm::vec3(-0.5f, -0.5f,  0.5f),
-              glm::vec3( 0.5f, -0.5f,  0.5f),
-              glm::vec3(-0.5f, -0.5f, -0.5f),
-              glm::vec3( 0.5f, -0.5f, -0.5f));
+//     Cube::makeFace(glm::vec3(-0.5f, -0.5f,  0.5f),
+//              glm::vec3( 0.5f, -0.5f,  0.5f),
+//              glm::vec3(-0.5f, -0.5f, -0.5f),
+//              glm::vec3( 0.5f, -0.5f, -0.5f));
 
-     Cube::makeFace(glm::vec3(0.5f, -0.5f,  0.5f),
-              glm::vec3(0.5f,  0.5f,  0.5f),
-              glm::vec3(0.5f, -0.5f, -0.5f),
-              glm::vec3(0.5f,  0.5f, -0.5f));
+//     Cube::makeFace(glm::vec3(0.5f, -0.5f,  0.5f),
+//              glm::vec3(0.5f,  0.5f,  0.5f),
+//              glm::vec3(0.5f, -0.5f, -0.5f),
+//              glm::vec3(0.5f,  0.5f, -0.5f));
 
      Cube::makeFace(glm::vec3( 0.5f, 0.5f,  0.5f),
               glm::vec3(-0.5f, 0.5f,  0.5f),
               glm::vec3( 0.5f, 0.5f, -0.5f),
               glm::vec3(-0.5f, 0.5f, -0.5f));
 
-     Cube::makeFace(glm::vec3(-0.5f,  0.5f,  0.5f),
-              glm::vec3(-0.5f, -0.5f,  0.5f),
-              glm::vec3(-0.5f,  0.5f, -0.5f),
-              glm::vec3(-0.5f, -0.5f, -0.5f));
+//     Cube::makeFace(glm::vec3(-0.5f,  0.5f,  0.5f),
+//              glm::vec3(-0.5f, -0.5f,  0.5f),
+//              glm::vec3(-0.5f,  0.5f, -0.5f),
+//              glm::vec3(-0.5f, -0.5f, -0.5f));
 
-     Cube::makeFace(glm::vec3( 0.5f,  0.5f, -0.5f),
-              glm::vec3(-0.5f,  0.5f, -0.5f),
-              glm::vec3( 0.5f, -0.5f, -0.5f),
-              glm::vec3(-0.5f, -0.5f, -0.5f));
+//     Cube::makeFace(glm::vec3( 0.5f,  0.5f, -0.5f),
+//              glm::vec3(-0.5f,  0.5f, -0.5f),
+//              glm::vec3( 0.5f, -0.5f, -0.5f),
+//              glm::vec3(-0.5f, -0.5f, -0.5f));
 }
 
 void Cube::insertVec3(std::vector<float> &data, glm::vec3 v) {

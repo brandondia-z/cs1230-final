@@ -132,4 +132,6 @@ private:
     GLuint m_displacement_texture;
     int m_water_time;
     int m_displacement_time;
+
+    GLuint m_height_texture;
 };

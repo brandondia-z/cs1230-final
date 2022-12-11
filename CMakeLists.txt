@@ -92,6 +92,7 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
         resources/shaders/texture.vert
         resources/images/displacement_texture.png
         resources/images/water_texture.png
+        resources/images/heightNoise2.png
 )
 
 # GLEW: this provides support for Windows (including 64-bit)

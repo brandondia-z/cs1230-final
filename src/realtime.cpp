@@ -143,6 +143,7 @@ void Realtime::initializeGL() {
     glBindVertexArray(0);
 
 
+    /// WATER AND DISPLACEMENT
     QString water_filepath = QString(":/resources/images/water_texture.png"); // Prepare filepath
     m_water_image = QImage(water_filepath); // Obtain image from filepath
     m_water_image = m_water_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
@@ -176,6 +177,30 @@ void Realtime::initializeGL() {
     glUniform1i(waterTextureLocation, 0);
     GLint displacementTextureLocation = glGetUniformLocation(m_lighting_shader, "displacement_sampler");
     glUniform1i(displacementTextureLocation, 1);
+
+
+    /// HEIGHT MAPPING
+    QString height_filepath = QString(":/resources/images/heightNoise2.png"); // Prepare filepath
+        QImage height_image = QImage(height_filepath); // Obtain image from filepath
+        height_image = height_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
+
+        glGenTextures(1, &m_height_texture); // Generate water texture
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, m_height_texture); // Bind water texture
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, height_image.width(), height_image.height(),
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, height_image.bits()); // Load image into water texture
+        // Set min and mag filters' interpolation mode to linear
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D, 0); // Unbind water texture
+
+
+        GLuint loc = glGetUniformLocation(m_lighting_shader, "height_sampler");
+            glUniform1i(loc, 2);
+            //glActiveTexture(GL_TEXTURE2);
+            //glBindTexture(GL_TEXTURE_2D, m_height_texture);
+
+
     glUseProgram(0);
 
 //    std::vector<GLfloat> fullscreen_quad_data =
@@ -265,6 +290,8 @@ void Realtime::paintGL() {
     glBindTexture(GL_TEXTURE_2D, m_water_texture);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, m_displacement_texture);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, m_height_texture);
 
     GLint typeLocation;
     GLint colorLocation;
