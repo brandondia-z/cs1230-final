@@ -21,10 +21,13 @@ uniform int displacement_time;
 
 out vec4 fragColor;
 
-void main()
-{
+
+// ~~ WATER ~~
+
+void main() {
     fragColor = vec4(1.f);
-    // Set fragColor using the sampler2D at the UV coordinate
+    fragColor = texture(sampler, vec2(uvCoords.x, uvCoords.y));
+//     Set fragColor using the sampler2D at the UV coordinate
     vec4 displacement = texture(displacement_sampler,
                                  vec2(uvCoords.x+(displacement_time/1200.f), uvCoords.y-(displacement_time/1200.f)));
     fragColor = texture(water_sampler, vec2(uvCoords.x+displacement.g-(water_time/640.f), uvCoords.y+displacement.g+(water_time/640.f)));
@@ -73,3 +76,4 @@ void main()
         fragColor = vec4(redAcc, greenAcc, blueAcc, 1);
     }
 }
+

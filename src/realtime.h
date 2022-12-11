@@ -52,6 +52,7 @@ private:
     int determineTesselation();
 
     void makeFBO();
+    void makeSecondFBO();
     void paintTexture(GLuint texture, GLuint texture2, bool perPixel, bool kernelBased, bool extraCredit1, bool extraCredit2);
 
     void translate(float dx, float dy, float dz);
@@ -104,8 +105,12 @@ private:
     GLuint m_texture_shader; // Stores id of texture shader program
     GLuint m_defaultFBO; // Stores default FBO value
     GLuint m_fbo;
+    GLuint m_fbo2;
     GLuint m_fbo_texture;
+    GLuint m_fbo2_texture;
+    GLuint m_intermediate_texture;
     GLuint m_fbo_renderbuffer;
+    GLuint m_fbo2_renderbuffer;
     GLuint m_fullscreen_vbo;
     GLuint m_fullscreen_vao;
 
