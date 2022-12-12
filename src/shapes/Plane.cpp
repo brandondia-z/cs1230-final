@@ -1,14 +1,14 @@
-#include "Cube.h"
+#include "Plane.h"
 #include <iostream>
 #include <ostream>
 
-void Cube::updateParams(int param1, bool invert) {
+void Plane::updateParams(int param1) {
     m_vertexData = std::vector<float>();
     m_param1 = param1 < 1 ? 1 : param1;
-    setVertexData(invert);
+    setVertexData();
 }
 
-void Cube::makeTile(glm::vec3 topLeft,
+void Plane::makeTile(glm::vec3 topLeft,
                     glm::vec3 topRight,
                     glm::vec3 bottomLeft,
                     glm::vec3 bottomRight) {
@@ -34,7 +34,6 @@ void Cube::makeTile(glm::vec3 topLeft,
     glm::vec3 edge1 = topLeft - bottomLeft;
     glm::vec3 edge2 = bottomLeft - topRight;
     glm::vec3 upperNormal = glm::normalize(glm::cross(edge1, edge2));
-
     insertVec3(m_vertexData, topLeft);
     insertVec3(m_vertexData, upperNormal);
     insertVec2(m_vertexData, getUV(topLeft));
@@ -50,7 +49,6 @@ void Cube::makeTile(glm::vec3 topLeft,
     glm::vec3 edge3 = topLeft - bottomLeft;
     glm::vec3 edge4 = bottomLeft - topRight;
     glm::vec3 lowerNormal = glm::normalize(glm::cross(edge3, edge4));
-
     insertVec3(m_vertexData, topRight);
     insertVec3(m_vertexData, lowerNormal);
     insertVec2(m_vertexData, getUV(topRight));
@@ -64,7 +62,7 @@ void Cube::makeTile(glm::vec3 topLeft,
     insertVec2(m_vertexData, getUV(bottomRight));
 }
 
-void Cube::makeFace(glm::vec3 topLeft,
+void Plane::makeFace(glm::vec3 topLeft,
                     glm::vec3 topRight,
                     glm::vec3 bottomLeft,
                     glm::vec3 bottomRight) {
@@ -97,7 +95,7 @@ void Cube::makeFace(glm::vec3 topLeft,
                 SE = {topLeft.x,
                       topLeft.y + ((row + 1) * yIncrement),
                       topLeft.z + (col * zIncrement)};
-                Cube::makeTile(NW, NE, SW, SE);
+                Plane::makeTile(NW, NE, SW, SE);
             }
         }
     } else if (yDiff == 0) {
@@ -115,7 +113,7 @@ void Cube::makeFace(glm::vec3 topLeft,
                 SE = {topLeft.x + ((col + 1) * xIncrement),
                       topLeft.y,
                       topLeft.z + ((row + 1) * zIncrement)};
-                Cube::makeTile(NW, NE, SW, SE);
+                Plane::makeTile(NW, NE, SW, SE);
             }
         }
     } else if (zDiff == 0) {
@@ -133,81 +131,52 @@ void Cube::makeFace(glm::vec3 topLeft,
                 SE = {topLeft.x + ((col + 1) * xIncrement),
                       topLeft.y + ((row + 1) * yIncrement),
                       topLeft.z};
-                Cube::makeTile(NW, NE, SW, SE);
+                Plane::makeTile(NW, NE, SW, SE);
             }
         }
     }
 }
 
-void Cube::setVertexData(bool invert) {
+void Plane::setVertexData() {
 
-    if (invert) {
-        Cube::makeFace(glm::vec3(-0.5f, -0.5f, 0.5f),
-                 glm::vec3( 0.5f, -0.5f, 0.5f), glm::vec3(-0.5f,  0.5f, 0.5f),
-                 glm::vec3( 0.5f,  0.5f, 0.5f));
+//     Cube::makeFace(glm::vec3(-0.5f,  0.5f, 0.5f),
+//              glm::vec3( 0.5f,  0.5f, 0.5f),
+//              glm::vec3(-0.5f, -0.5f, 0.5f),
+//              glm::vec3( 0.5f, -0.5f, 0.5f));
 
-        Cube::makeFace(glm::vec3(-0.5f, -0.5f, -0.5f),
-                 glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(-0.5f, -0.5f,  0.5f),
-                    glm::vec3( 0.5f, -0.5f,  0.5f));
+//     Cube::makeFace(glm::vec3(-0.5f, -0.5f,  0.5f),
+//              glm::vec3( 0.5f, -0.5f,  0.5f),
+//              glm::vec3(-0.5f, -0.5f, -0.5f),
+//              glm::vec3( 0.5f, -0.5f, -0.5f));
 
-        Cube::makeFace(glm::vec3(0.5f, -0.5f, -0.5f),
-                 glm::vec3(0.5f,  0.5f, -0.5f), glm::vec3(0.5f, -0.5f,  0.5f),
-                    glm::vec3(0.5f,  0.5f,  0.5f));
+//     Cube::makeFace(glm::vec3(0.5f, -0.5f,  0.5f),
+//              glm::vec3(0.5f,  0.5f,  0.5f),
+//              glm::vec3(0.5f, -0.5f, -0.5f),
+//              glm::vec3(0.5f,  0.5f, -0.5f));
 
-        Cube::makeFace(glm::vec3( 0.5f, 0.5f, -0.5f),
-                 glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3( 0.5f, 0.5f,  0.5f),
-                    glm::vec3(-0.5f, 0.5f,  0.5f));
+     Plane::makeFace(glm::vec3( 0.5f, 0.5f,  0.5f),
+              glm::vec3(-0.5f, 0.5f,  0.5f),
+              glm::vec3( 0.5f, 0.5f, -0.5f),
+              glm::vec3(-0.5f, 0.5f, -0.5f));
 
-        Cube::makeFace(glm::vec3(-0.5f,  0.5f, -0.5f),
-                 glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-0.5f,  0.5f,  0.5f),
-                    glm::vec3(-0.5f, -0.5f,  0.5f));
+//     Cube::makeFace(glm::vec3(-0.5f,  0.5f,  0.5f),
+//              glm::vec3(-0.5f, -0.5f,  0.5f),
+//              glm::vec3(-0.5f,  0.5f, -0.5f),
+//              glm::vec3(-0.5f, -0.5f, -0.5f));
 
-        Cube::makeFace(glm::vec3( 0.5f, -0.5f, -0.5f),
-                 glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.5f,  0.5f, -0.5f),
-                    glm::vec3(-0.5f,  0.5f, -0.5f));
-
-    } else {
-        Cube::makeFace(glm::vec3(-0.5f,  0.5f, 0.5f),
-                 glm::vec3( 0.5f,  0.5f, 0.5f),
-                 glm::vec3(-0.5f, -0.5f, 0.5f),
-                 glm::vec3( 0.5f, -0.5f, 0.5f));
-
-        Cube::makeFace(glm::vec3(-0.5f, -0.5f,  0.5f),
-                 glm::vec3( 0.5f, -0.5f,  0.5f),
-                 glm::vec3(-0.5f, -0.5f, -0.5f),
-                 glm::vec3( 0.5f, -0.5f, -0.5f));
-
-        Cube::makeFace(glm::vec3(0.5f, -0.5f,  0.5f),
-                 glm::vec3(0.5f,  0.5f,  0.5f),
-                 glm::vec3(0.5f, -0.5f, -0.5f),
-                 glm::vec3(0.5f,  0.5f, -0.5f));
-
-        Cube::makeFace(glm::vec3( 0.5f, 0.5f,  0.5f),
-                 glm::vec3(-0.5f, 0.5f,  0.5f),
-                 glm::vec3( 0.5f, 0.5f, -0.5f),
-                 glm::vec3(-0.5f, 0.5f, -0.5f));
-
-        Cube::makeFace(glm::vec3(-0.5f,  0.5f,  0.5f),
-                 glm::vec3(-0.5f, -0.5f,  0.5f),
-                 glm::vec3(-0.5f,  0.5f, -0.5f),
-                 glm::vec3(-0.5f, -0.5f, -0.5f));
-
-        Cube::makeFace(glm::vec3( 0.5f,  0.5f, -0.5f),
-                 glm::vec3(-0.5f,  0.5f, -0.5f),
-                 glm::vec3( 0.5f, -0.5f, -0.5f),
-                 glm::vec3(-0.5f, -0.5f, -0.5f));
-    }
-
-
+//     Cube::makeFace(glm::vec3( 0.5f,  0.5f, -0.5f),
+//              glm::vec3(-0.5f,  0.5f, -0.5f),
+//              glm::vec3( 0.5f, -0.5f, -0.5f),
+//              glm::vec3(-0.5f, -0.5f, -0.5f));
 }
 
-void Cube::insertVec3(std::vector<float> &data, glm::vec3 v) {
+void Plane::insertVec3(std::vector<float> &data, glm::vec3 v) {
     data.push_back(v.x);
     data.push_back(v.y);
     data.push_back(v.z);
 }
 
-glm::vec2 Cube::getUV(glm::vec3 objPoint) {
+glm::vec2 Plane::getUV(glm::vec3 objPoint) {
     float u;
     float v;
     if (objPoint.x ==0.5f) {
@@ -238,7 +207,7 @@ glm::vec2 Cube::getUV(glm::vec3 objPoint) {
     return glm::vec2(u, v);
 }
 
-void Cube::insertVec2(std::vector<float> &data, glm::vec2 v) {
+void Plane::insertVec2(std::vector<float> &data, glm::vec2 v) {
     data.push_back(v.x);
     data.push_back(v.y);
 }

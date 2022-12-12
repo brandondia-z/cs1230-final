@@ -49,12 +49,16 @@ void Realtime::finish() {
     glDeleteBuffers(1, &m_cylinderVbo);
     glDeleteBuffers(1, &m_sphereVbo);
     glDeleteBuffers(1, &m_meshVbo);
+    glDeleteBuffers(1, &m_planeVbo);
+    glDeleteBuffers(1, &m_invertCubeVbo);
 
     glDeleteVertexArrays(1, &m_coneVao);
     glDeleteVertexArrays(1, &m_cubeVao);
     glDeleteVertexArrays(1, &m_cylinderVao);
     glDeleteVertexArrays(1, &m_sphereVao);
     glDeleteVertexArrays(1, &m_meshVao);
+    glDeleteVertexArrays(1, &m_planeVao);
+    glDeleteVertexArrays(1, &m_invertCubeVao);
 
     glDeleteTextures(1, &m_fbo_texture);
     glDeleteTextures(1, &m_fbo2_texture);
@@ -119,12 +123,16 @@ void Realtime::initializeGL() {
     glGenVertexArrays(1, &m_cylinderVao);
     glGenVertexArrays(1, &m_sphereVao);
     glGenVertexArrays(1, &m_meshVao);
+    glGenVertexArrays(1, &m_planeVao);
+    glGenVertexArrays(1, &m_invertCubeVao);
 
     glGenBuffers(1, &m_coneVbo); // Generates VBOs and stores them in m_vbos
     glGenBuffers(1, &m_cubeVbo);
     glGenBuffers(1, &m_cylinderVbo);
     glGenBuffers(1, &m_sphereVbo);
     glGenBuffers(1, &m_meshVbo);
+    glGenBuffers(1, &m_planeVbo);
+    glGenBuffers(1, &m_invertCubeVbo);
 
     glBindVertexArray(m_coneVao);
     bindCone();
@@ -132,6 +140,14 @@ void Realtime::initializeGL() {
 
     glBindVertexArray(m_cubeVao);
     bindCube();
+    glBindVertexArray(0);
+
+    glBindVertexArray(m_invertCubeVao);
+    bindInvertCube();
+    glBindVertexArray(0);
+
+    glBindVertexArray(m_planeVao);
+    bindPlane();
     glBindVertexArray(0);
 
     glBindVertexArray(m_cylinderVao);
@@ -196,7 +212,8 @@ void Realtime::initializeGL() {
 
 
         GLuint loc = glGetUniformLocation(m_lighting_shader, "height_sampler");
-            glUniform1i(loc, 2);
+        glUniform1i(loc, 2);
+
             //glActiveTexture(GL_TEXTURE2);
             //glBindTexture(GL_TEXTURE_2D, m_height_texture);
 
@@ -370,6 +387,8 @@ void Realtime::paintGL() {
         GLint materialSpecular = glGetUniformLocation(m_lighting_shader, "materialSpecular");
         glUniform4fv(materialSpecular, 1, &shape.primitive.material.cSpecular[0]);
 
+        glUniform1i(glGetUniformLocation(m_lighting_shader, "shapeType"), (int)shape.primitive.type);
+
         // Draw Command
         switch (shape.primitive.type) {
             case PrimitiveType::PRIMITIVE_CONE:
@@ -381,6 +400,12 @@ void Realtime::paintGL() {
             case PrimitiveType::PRIMITIVE_CUBE:
                 glBindVertexArray(m_cubeVao);
                 m_numTriangles = m_cubeData.size() / 6.f;
+                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
+                glBindVertexArray(0);
+                break;
+            case PrimitiveType::PRIMITIVE_PLANE:
+                glBindVertexArray(m_planeVao);
+                m_numTriangles = m_planeData.size() / 6.f;
                 glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
                 glBindVertexArray(0);
                 break;
@@ -399,6 +424,12 @@ void Realtime::paintGL() {
             case PrimitiveType::PRIMITIVE_MESH:
                 glBindVertexArray(m_meshVao);
                 m_numTriangles = m_meshData.size() / 6.f;
+                glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
+                glBindVertexArray(0);
+                break;
+            case PrimitiveType::PRIMITIVE_INVERTCUBE:
+                glBindVertexArray(m_invertCubeVao);
+                m_numTriangles = m_invertCubeData.size() / 6.f;
                 glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
                 glBindVertexArray(0);
                 break;
@@ -515,7 +546,11 @@ void Realtime::settingsChanged() {
                 glBindVertexArray(m_cubeVao);
                 bindCube();
                 glBindVertexArray(0);
+
             }
+            glBindVertexArray(m_planeVao);
+            bindPlane();
+            glBindVertexArray(0);
             glBindVertexArray(m_cylinderVao);
             bindCylinder();
             glBindVertexArray(0);
@@ -551,9 +586,9 @@ void Realtime::bindCube() {
     makeCurrent();
     glBindBuffer(GL_ARRAY_BUFFER, m_cubeVbo); // Binds the cube VBO
     if (m_updated) {
-        m_cube.updateParams(settings.shapeParameter1);
+        m_cube.updateParams(settings.shapeParameter1, false);
     } else {
-        m_cube.updateParams(determineTesselation());
+        m_cube.updateParams(determineTesselation(), false);
     }
     m_cubeData = m_cube.generateShape();
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m_cubeData.size(), m_cubeData.data(), GL_STATIC_DRAW); // passes cube data into vbo
@@ -564,6 +599,48 @@ void Realtime::bindCube() {
 //    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
 
     // ~~ SARAH CODE
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(0 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(6 * sizeof(GLfloat)));
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0); // Unbinds cube Vbo
+}
+
+void Realtime::bindInvertCube() {
+    makeCurrent();
+    glBindBuffer(GL_ARRAY_BUFFER, m_invertCubeVbo); // Binds the cube VBO
+    if (m_updated) {
+        m_cube.updateParams(settings.shapeParameter1, true);
+    } else {
+        m_cube.updateParams(determineTesselation(), true);
+    }
+    m_invertCubeData = m_cube.generateShape();
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m_invertCubeData.size(), m_invertCubeData.data(), GL_STATIC_DRAW); // passes cube data into vbo
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(0 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(6 * sizeof(GLfloat)));
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0); // Unbinds cube Vbo
+}
+
+void Realtime::bindPlane() {
+    makeCurrent();
+    glBindBuffer(GL_ARRAY_BUFFER, m_planeVbo); // Binds the cube VBO
+    if (m_updated) {
+        m_plane.updateParams(settings.shapeParameter1);
+    } else {
+        m_plane.updateParams(determineTesselation());
+    }
+    m_planeData = m_plane.generateShape();
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m_planeData.size(), m_planeData.data(), GL_STATIC_DRAW); // passes cube data into vbo
+
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);

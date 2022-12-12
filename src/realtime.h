@@ -1,6 +1,7 @@
 #pragma once
 
 // Defined before including GLEW to suppress deprecation messages on macOS
+#include "shapes/Plane.h"
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
 #endif
@@ -46,9 +47,11 @@ private:
 
     void bindCone();
     void bindCube();
+    void bindPlane();
     void bindCylinder();
     void bindSphere();
     void bindMesh();
+    void bindInvertCube();
     int determineTesselation();
 
     void makeFBO();
@@ -76,6 +79,7 @@ private:
     // Shape to render
     Cone m_cone;
     Cube m_cube;
+    Plane m_plane;
     Cylinder m_cylinder;
     Sphere m_sphere;
 
@@ -93,9 +97,11 @@ private:
 
     std::vector<GLfloat> m_coneData;
     std::vector<GLfloat> m_cubeData;
+    std::vector<GLfloat> m_invertCubeData;
     std::vector<GLfloat> m_cylinderData;
     std::vector<GLfloat> m_sphereData;
     std::vector<GLfloat> m_meshData;
+    std::vector<GLfloat> m_planeData;
     int m_numTriangles;
     bool m_setupComplete = false;
     bool m_updated = false;
@@ -119,12 +125,16 @@ private:
     GLuint m_cylinderVbo; // Stores id of cylinder VBO
     GLuint m_sphereVbo; // Stores id of sphere VBO
     GLuint m_meshVbo;
+    GLuint m_planeVbo;
+    GLuint m_invertCubeVbo;
 
     GLuint m_coneVao; // Stores id of cone VAO
     GLuint m_cubeVao; // Stores id of cube VAO
     GLuint m_cylinderVao; // Stores id of cylinder VAO
     GLuint m_sphereVao; // Stores id of sphere VAO
     GLuint m_meshVao;
+    GLuint m_planeVao;
+    GLuint m_invertCubeVao;
 
     QImage m_water_image;
     QImage m_displacement_image;
