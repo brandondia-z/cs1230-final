@@ -39,23 +39,23 @@ void main(){       // set fragColor using the sampler2D at the UV coordinate
 //        float grayPixel = (.299*fragColor[0]) + (.587*fragColor[1]) + (.114*fragColor[2]);
 //        fragColor = vec4(grayPixel, grayPixel, grayPixel, 1.0);
 
-        if (isOutline){
+//        if (isOutline){
 
-             vec4 n[9];
-            make_kernel(n, m_texture, uv_coord);
+//             vec4 n[9];
+//            make_kernel(n, m_texture, uv_coord);
 
-            vec4 sobel_edge_h = n[2] + (2.0*n[5]) + n[8] - (n[0] + (2.0*n[3]) + n[6]);
-            vec4 sobel_edge_v = n[0] + (2.0*n[1]) + n[2] - (n[6] + (2.0*n[7]) + n[8]);
-            vec4 sobel = sqrt((sobel_edge_h * sobel_edge_h) + (sobel_edge_v * sobel_edge_v));
+//            vec4 sobel_edge_h = n[2] + (2.0*n[5]) + n[8] - (n[0] + (2.0*n[3]) + n[6]);
+//            vec4 sobel_edge_v = n[0] + (2.0*n[1]) + n[2] - (n[6] + (2.0*n[7]) + n[8]);
+//            vec4 sobel = sqrt((sobel_edge_h * sobel_edge_h) + (sobel_edge_v * sobel_edge_v));
 
-            vec4 outline = vec4(sobel.rgb, 1.0 );
-            vec4 outlineColor = vec4(1.0);
+//            vec4 outline = vec4(sobel.rgb, 1.0 );
+//            vec4 outlineColor = vec4(1.0);
 
-            fragColor = vec4(mix(fragColor, outlineColor, outline));
-//            float intensity = (0.299 * fragColor.x) + (0.587 * fragColor.y) + (0.114 * fragColor.z);
-//            fragColor = vec4(intensity, intensity, intensity, 1);
+//            fragColor = vec4(mix(fragColor, outlineColor, outline));
+////            float intensity = (0.299 * fragColor.x) + (0.587 * fragColor.y) + (0.114 * fragColor.z);
+////            fragColor = vec4(intensity, intensity, intensity, 1);
 
-        } else {
+//        } else {
             vec2 texelsPerPixel = vec2(float(256.f), float (256.f));
             vec2 uv = uv_coord  * texelsPerPixel;
 
@@ -66,13 +66,14 @@ void main(){       // set fragColor using the sampler2D at the UV coordinate
 
             vec2 textCoord = (floor(uv) + x_) / texelsPerPixel;
 
-            fragColor =/* vec4(1.f);*/
-                    texture(m_texture, textCoord);
+            fragColor = texture(m_texture, textCoord);
 
 //            float intensity = (0.299 * fragColor.x) + (0.587 * fragColor.y) + (0.114 * fragColor.z);
 //            fragColor = vec4(intensity, intensity, intensity, 1);
 
-        }
+        //}
+
+            fragColor = vec4(1.f);
 
 }
 

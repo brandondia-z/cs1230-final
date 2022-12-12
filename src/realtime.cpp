@@ -122,11 +122,13 @@ void Realtime::initializePixelation(){
         glUseProgram(m_postprocess_shader);
         // keep it at 3 to make sure texture binds at right spot!!!
         glUniform1i(glGetUniformLocation(m_postprocess_shader, "m_texture"), 3);
+        glUniform1i(glGetUniformLocation(m_postprocess_shader, "image_width"), size().width());
+        glUniform1i(glGetUniformLocation(m_postprocess_shader, "image_height"), size().height());
 
 
         //pass in uniforms
         glUseProgram(m_pixeloutline_shader);
-        glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 4);
+        //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 4);
         glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "image_width"), size().width());
         glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "image_height"), size().height());
 
@@ -171,6 +173,8 @@ void Realtime::initializePixelation(){
             // binds at correct texture slot
             glActiveTexture(GL_TEXTURE3 + textureSlot);
             glBindTexture(GL_TEXTURE_2D, pingpongBuffer[i]);
+            glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 3+textureSlot);
+
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_fbo_width, m_fbo_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -553,17 +557,16 @@ void Realtime::paintGL() {
                 glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[isOutline]);
                 glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "isOutline"), isOutline);
 
-Debug::glErrorCheck();
+
                 if (first_iteration){
-                    glActiveTexture(GL_TEXTURE3);
+                    glActiveTexture(GL_TEXTURE4);
                     glBindTexture(GL_TEXTURE_2D, default_texture);
-                   // glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 0);
-Debug::glErrorCheck();
+                    //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 4);
                     first_iteration = false;
                 } else {
-                    glActiveTexture(GL_TEXTURE3 + textureSlot);
+                    glActiveTexture(GL_TEXTURE4 + textureSlot);
                     glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!isOutline]);
-                    //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 0);
+                    //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 5);
 
                 }
                 Debug::glErrorCheck();
@@ -585,7 +588,7 @@ Debug::glErrorCheck();
         glUseProgram(m_postprocess_shader);
         glBindVertexArray(m_fullscreen_vao);
         Debug::glErrorCheck();
-        glActiveTexture(GL_TEXTURE4);
+        //glActiveTexture(GL_TEXTURE5);
         glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!isOutline]);
         Debug::glErrorCheck();
        // glBindTexture(GL_TEXTURE_2D, default_texture);
