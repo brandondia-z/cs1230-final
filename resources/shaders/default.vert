@@ -21,33 +21,33 @@ uniform mat4 viewMat;
 uniform mat4 projMat;
 uniform mat3 itModelMat;
 uniform bool isMesh;
+uniform int shapeType;
 
 void main() {
-
     uvCoords = layoutUvCoords;
+    if (shapeType == 6) {
+        float disp;
+        disp = texture(height_sampler, layoutUvCoords + (displacement_time/15000.f)).r;
+        vec4 displace = vec4(objectPosition, 1);
+        float displaceFactor = 0.1;
+        float displaceBias = 0.0;
+        displace.xyz += (displaceFactor * disp - displaceBias) * objectNormal;
+        displace = modelMat * displace;
+        gl_Position = (projMat * (viewMat * displace));
 
-//    if (isMesh) {
-//        worldPosition = objectPosition;
-//        worldNormal = normalize(objectNormal);
-//    } else {
-//        worldPosition = vec3(modelMat * vec4(objectPosition, 1));
-//        worldNormal = itModelMat * vec3(normalize(objectNormal)); // also transposed
-//    }
+        vec4 wp = modelMat * vec4(objectPosition, 1.0);
+        worldPosition = vec3(wp);
+        worldNormal = itModelMat * normalize(objectNormal);
+    } else {
+        if (isMesh) {
+            worldPosition = objectPosition;
+            worldNormal = normalize(objectNormal);
+        } else {
+            worldPosition = vec3(modelMat * vec4(objectPosition, 1));
+            worldNormal = itModelMat * vec3(normalize(objectNormal)); // also transposed
+        }
 
-//    // Position transformed to clip space
-//    gl_Position = (projMat * (viewMat * vec4(worldPosition, 1)));
-
-    float disp;
-    disp = texture(height_sampler, layoutUvCoords + (displacement_time/15000.f)).r;
-    vec4 displace = vec4(objectPosition, 1);
-    float displaceFactor = 0.1;
-    float displaceBias = 0.0;
-    displace.xyz += (displaceFactor * disp - displaceBias) * objectNormal;
-    displace = modelMat * displace;
-    gl_Position = (projMat * (viewMat * displace));
-
-    vec4 wp = modelMat * vec4(objectPosition, 1.0);
-    worldPosition = vec3(wp);
-    worldNormal = itModelMat * normalize(objectNormal);
-
+        // Position transformed to clip space
+        gl_Position = (projMat * (viewMat * vec4(worldPosition, 1)));
+    }
 }

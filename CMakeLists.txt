@@ -37,6 +37,7 @@ add_executable(${PROJECT_NAME}
     src/shapes/Cube.cpp
     src/shapes/Cylinder.cpp
     src/shapes/Sphere.cpp
+    src/shapes/Plane.cpp
     src/shapes/mesh.cpp
     src/raytracer/implicitShapes.cpp
     src/raytracer/lights.cpp
@@ -59,6 +60,7 @@ add_executable(${PROJECT_NAME}
     src/shapes/Cube.h
     src/shapes/Cylinder.h
     src/shapes/Sphere.h
+    src/shapes/Plane.h
     src/shapes/mesh.h
     src/raytracer/raytracer.h
     src/raytracer/raytracescene.h
