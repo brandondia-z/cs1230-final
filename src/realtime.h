@@ -37,6 +37,9 @@ protected:
     void resizeGL(int width, int height) override;      // Called when window size changes
 
 private:
+
+     GLuint m_defaultFBO = 4; // Stores default FBO value
+
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -103,7 +106,7 @@ private:
 
     GLuint m_lighting_shader; // Stores id of lighting shader program
     GLuint m_texture_shader; // Stores id of texture shader program
-    GLuint m_defaultFBO; // Stores default FBO value
+
     GLuint m_fbo;
     GLuint m_fbo2;
     GLuint m_fbo_texture;
@@ -134,4 +137,21 @@ private:
     int m_displacement_time;
 
     GLuint m_height_texture;
+
+
+    // PIXELATION
+    GLuint m_postprocess_shader;
+    GLuint m_pixeloutline_shader;
+
+    GLuint renderFBO;
+    GLuint default_texture;
+    GLuint default_rb;
+
+    // pingpong
+    GLuint pingpongFBO[2];
+    GLuint pingpongBuffer[2];
+
+
+    void initializePixelation();
+    void generateFullQuadData();
 };
