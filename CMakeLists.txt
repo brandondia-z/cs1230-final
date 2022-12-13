@@ -90,8 +90,6 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
     FILES
         resources/shaders/default.frag
         resources/shaders/default.vert
-        resources/shaders/texture.frag
-        resources/shaders/texture.vert
         resources/images/displacement_texture.png
         resources/images/water_texture.png
         resources/images/heightNoise2.png

@@ -9,6 +9,5 @@ out vec2 uv_coord;
 void main() {
     // Assign the UV layout variable to the UV "out" variable
     uv_coord = uv;
-
     gl_Position = vec4(position, 1.0);
 }

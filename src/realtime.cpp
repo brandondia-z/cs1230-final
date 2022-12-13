@@ -17,8 +17,6 @@
 #include "shapes/Sphere.h"
 #include "shapes/mesh.h"
 
-// ================== Project 5: Lights, Camera
-
 Realtime::Realtime(QWidget *parent)
     : QOpenGLWidget(parent)
 {
@@ -32,15 +30,12 @@ Realtime::Realtime(QWidget *parent)
     m_keyMap[Qt::Key_D]       = false;
     m_keyMap[Qt::Key_Control] = false;
     m_keyMap[Qt::Key_Space]   = false;
-
-    // If you must use this function, do not edit anything above this
 }
 
 void Realtime::finish() {
     killTimer(m_timer);
     this->makeCurrent();
 
-    // Students: anything requiring OpenGL calls when the program exits should be done here
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
@@ -62,25 +57,22 @@ void Realtime::finish() {
 
     glDeleteTextures(1, &m_water_texture);
     glDeleteTextures(1, &m_displacement_texture);
+    glDeleteTextures(1, &m_height_texture);
 
     glDeleteProgram(m_lighting_shader);
-    glDeleteProgram(m_texture_shader);
 
-    // delete pixelation stuffs
     glDeleteProgram(m_postprocess_shader);
     glDeleteProgram(m_pixeloutline_shader);
 
-      glDeleteVertexArrays(1, &m_fullscreen_vao);
-      glDeleteBuffers(1, &m_fullscreen_vbo);
+    glDeleteVertexArrays(1, &m_fullscreen_vao);
+    glDeleteBuffers(1, &m_fullscreen_vbo);
 
-      // delete fbos
-      glDeleteTextures(1, &default_texture);
-      glDeleteRenderbuffers(1, &default_rb);
-      glDeleteFramebuffers(1, &renderFBO);
+    glDeleteTextures(1, &default_texture);
+    glDeleteRenderbuffers(1, &default_rb);
+    glDeleteFramebuffers(1, &renderFBO);
 
-      glDeleteTextures(2, pingpongBuffer);
-      glDeleteFramebuffers(2, pingpongFBO);
-
+    glDeleteTextures(2, pingpongBuffer);
+    glDeleteFramebuffers(2, pingpongFBO);
 
     this->doneCurrent();
 }
@@ -103,11 +95,11 @@ void Realtime::generateFullQuadData(){
           };
 
         // generate and bind vbo/vao for fullscreen quad
-          glGenBuffers(1, &m_fullscreen_vbo);
-          glBindBuffer(GL_ARRAY_BUFFER, m_fullscreen_vbo);
-          glBufferData(GL_ARRAY_BUFFER, fullscreen_quad_data.size()*sizeof(GLfloat), fullscreen_quad_data.data(), GL_STATIC_DRAW);
-          glGenVertexArrays(1, &m_fullscreen_vao);
-          glBindVertexArray(m_fullscreen_vao);
+        glGenBuffers(1, &m_fullscreen_vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, m_fullscreen_vbo);
+        glBufferData(GL_ARRAY_BUFFER, fullscreen_quad_data.size()*sizeof(GLfloat), fullscreen_quad_data.data(), GL_STATIC_DRAW);
+        glGenVertexArrays(1, &m_fullscreen_vao);
+        glBindVertexArray(m_fullscreen_vao);
 
         // add attributes to vao
         glEnableVertexAttribArray(0);
@@ -128,7 +120,6 @@ void Realtime::initializePixelation(){
         glUniform1i(glGetUniformLocation(m_postprocess_shader, "m_texture"), 3);
         glUniform1i(glGetUniformLocation(m_postprocess_shader, "image_width"), size().width());
         glUniform1i(glGetUniformLocation(m_postprocess_shader, "image_height"), size().height());
-
 
         //pass in uniforms
         glUseProgram(m_pixeloutline_shader);
@@ -159,12 +150,12 @@ void Realtime::initializePixelation(){
         GLuint attachments[1] = {GL_COLOR_ATTACHMENT0};
         glDrawBuffers(1, attachments);
 
-           //Generate and bind a renderbuffer of the right size, set its format, then unbind
-            glGenRenderbuffers(1, &default_rb);
-            glBindRenderbuffer(GL_RENDERBUFFER, default_rb);
-            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_fbo_width, m_fbo_height);
-            glBindRenderbuffer(GL_RENDERBUFFER, 0);
-            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, default_rb);
+       //Generate and bind a renderbuffer of the right size, set its format, then unbind
+        glGenRenderbuffers(1, &default_rb);
+        glBindRenderbuffer(GL_RENDERBUFFER, default_rb);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_fbo_width, m_fbo_height);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, default_rb);
 
         // create pingpong
 
@@ -184,19 +175,13 @@ void Realtime::initializePixelation(){
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            std::cout << "Color buffer: " << pingpongBuffer[i] << std::endl;
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pingpongBuffer[i], 0);
-            Debug::glErrorCheck();
 
             if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
                 std::cout << "failed" << std::endl;
-
             }
-
             textureSlot++;
         }
-
-        Debug::glErrorCheck();
 }
 
 void Realtime::initializeGL() {
@@ -216,7 +201,6 @@ void Realtime::initializeGL() {
     }
     std::cout << "Initialized GL: Version " << glewGetString(GLEW_VERSION) << std::endl;
 
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glViewport(0, 0, size().width() * m_devicePixelRatio, size().height() * m_devicePixelRatio);
@@ -232,7 +216,6 @@ void Realtime::initializeGL() {
 
     // Shader setup and variable setting
     m_lighting_shader = ShaderLoader::createShaderProgram(":/resources/shaders/default.vert", ":/resources/shaders/default.frag");
-    m_texture_shader = ShaderLoader::createShaderProgram(":/resources/shaders/texture.vert", ":/resources/shaders/texture.frag");
     m_postprocess_shader = ShaderLoader::createShaderProgram(":/resources/shaders/pixelation.vert", ":/resources/shaders/pixelation.frag");
     m_pixeloutline_shader = ShaderLoader::createShaderProgram(":/resources/shaders/pixelation.vert", ":/resources/shaders/pixeloutline.frag");
 
@@ -283,7 +266,6 @@ void Realtime::initializeGL() {
     bindSphere();
     glBindVertexArray(0);
 
-
     /// WATER AND DISPLACEMENT
     QString water_filepath = QString(":/resources/images/water_texture.png"); // Prepare filepath
     m_water_image = QImage(water_filepath); // Obtain image from filepath
@@ -319,89 +301,36 @@ void Realtime::initializeGL() {
     GLint displacementTextureLocation = glGetUniformLocation(m_lighting_shader, "displacement_sampler");
     glUniform1i(displacementTextureLocation, 1);
 
-
     /// HEIGHT MAPPING
     QString height_filepath = QString(":/resources/images/heightNoise2.png"); // Prepare filepath
-        QImage height_image = QImage(height_filepath); // Obtain image from filepath
-        height_image = height_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
+    QImage height_image = QImage(height_filepath); // Obtain image from filepath
+    height_image = height_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
 
-        glGenTextures(1, &m_height_texture); // Generate water texture
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, m_height_texture); // Bind water texture
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, height_image.width(), height_image.height(),
-                     0, GL_RGBA, GL_UNSIGNED_BYTE, height_image.bits()); // Load image into water texture
-        // Set min and mag filters' interpolation mode to linear
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glBindTexture(GL_TEXTURE_2D, 0); // Unbind water texture
+    glGenTextures(1, &m_height_texture);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, m_height_texture); // Bind texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, height_image.width(), height_image.height(),
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, height_image.bits()); // Load image into texture
+    // Set min and mag filters' interpolation mode to linear
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture
 
-
-        GLuint loc = glGetUniformLocation(m_lighting_shader, "height_sampler");
-        glUniform1i(loc, 2);
-
-            //glActiveTexture(GL_TEXTURE2);
-            //glBindTexture(GL_TEXTURE_2D, m_height_texture);
-
-            Debug::glErrorCheck();
-
-
-    //glUseProgram(0);
-
-    // ACTIVATE PIXELATION
-    //initializePixelation();
-
-//    std::vector<GLfloat> fullscreen_quad_data =
-//    { //     POSITIONS    //
-//        -1.f,  1.f,  0.f,
-//         0.f,  1.f,  0.f,
-
-//        -1.f, -1.f,  0.f,
-//         0.f,  0.f,  0.f,
-
-//         1.f, -1.f,  0.f,
-//         1.f,  0.f,  0.f,
-
-//         1.f,  1.f,  0.f,
-//         1.f,  1.f,  0.f,
-
-//        -1.f,  1.f,  0.f,
-//         0.f,  1.f,  0.f,
-
-//         1.f, -1.f,  0.f,
-//         1.f,  0.f,  0.f
-//    };
-
-//    glGenBuffers(1, &m_fullscreen_vbo);
-//    glBindBuffer(GL_ARRAY_BUFFER, m_fullscreen_vbo);
-//    glBufferData(GL_ARRAY_BUFFER, fullscreen_quad_data.size()*sizeof(GLfloat), fullscreen_quad_data.data(), GL_STATIC_DRAW);
-//    glGenVertexArrays(1, &m_fullscreen_vao);
-//    glBindVertexArray(m_fullscreen_vao);
-
-//    glEnableVertexAttribArray(0); // OpenGL coords
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-//    glEnableVertexAttribArray(1); // UV coords
-//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
-
-//    glBindBuffer(GL_ARRAY_BUFFER, 0);
-//    glBindVertexArray(0);
-
-//    makeFBO();
+    GLuint loc = glGetUniformLocation(m_lighting_shader, "height_sampler");
+    glUniform1i(loc, 2);
 
     m_setupComplete = true;
 }
 
 void Realtime::paintGL() {
-
     // activate main FBO
     glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(0,0,m_screen_width, m_screen_height);
-    Debug::glErrorCheck();
 
     // Activate the shader program by calling glUseProgram with `m_lighint_shader`
     glUseProgram(m_lighting_shader);
-
 
     // Time variables to help create scrolling textures
     GLint waterTimeLocation = glGetUniformLocation(m_lighting_shader, "water_time");
@@ -431,7 +360,6 @@ void Realtime::paintGL() {
     glm::vec4 cameraPos = inverse(m_viewMatrix) * glm::vec4{0, 0, 0, 1}; // viewMat * origin
     GLint cameraPosLocation = glGetUniformLocation(m_lighting_shader, "cameraPos");
     glUniform4fv(cameraPosLocation, 1, &cameraPos[0]);
-    Debug::glErrorCheck();
 
     int numLights = m_data.lights.size();
 
@@ -444,8 +372,6 @@ void Realtime::paintGL() {
     glBindTexture(GL_TEXTURE_2D, m_displacement_texture);
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, m_height_texture);
-
-    Debug::glErrorCheck();
 
     GLint typeLocation;
     GLint colorLocation;
@@ -501,7 +427,6 @@ void Realtime::paintGL() {
     // Loop over shapes in scene
     for (RenderShapeData &shape : m_data.shapes) {
 
-        // Pass in m_model as a uniform into the shader program
         GLint modelLocation = glGetUniformLocation(m_lighting_shader, "modelMat");
         glUniformMatrix4fv(modelLocation, 1, GL_FALSE, &shape.ctm[0][0]);
 
@@ -580,69 +505,51 @@ void Realtime::paintGL() {
     }
 
     glBindTexture(GL_TEXTURE_2D, 0);
-    Debug::glErrorCheck();
-    //glUseProgram(0);
-
 
     // PING PONGGG
     glUseProgram(m_pixeloutline_shader);
-    Debug::glErrorCheck();
 
-            bool isOutline = true;
-            bool first_iteration = true;
-            int textureSlot = 5;
+    bool isOutline = true;
+    bool first_iteration = true;
+    int textureSlot = 5;
 
-            for (unsigned int i =0; i<2; i++){
-                glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[isOutline]);
-                glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "isOutline"), isOutline);
+    for (unsigned int i =0; i<2; i++){
+        glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[isOutline]);
+        glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "isOutline"), isOutline);
 
 
-                if (first_iteration){
-                    glActiveTexture(GL_TEXTURE4);
-                    glBindTexture(GL_TEXTURE_2D, default_texture);
-                    //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 4);
-                    first_iteration = false;
-                    //glBindTexture(GL_TEXTURE_2D, 0);
+        if (first_iteration){
+            glActiveTexture(GL_TEXTURE4);
+            glBindTexture(GL_TEXTURE_2D, default_texture);
+            //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 4);
+            first_iteration = false;
 
-                } else {
-                    glActiveTexture(GL_TEXTURE0 + textureSlot);
-                    glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!isOutline]);
-                    //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 5);
+        } else {
+            glActiveTexture(GL_TEXTURE0 + textureSlot);
+            glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!isOutline]);
+        }
 
-                }
-                Debug::glErrorCheck();
+        glBindVertexArray(m_fullscreen_vao);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
-                glBindVertexArray(m_fullscreen_vao);
-                Debug::glErrorCheck();
+        isOutline = !isOutline;
+        textureSlot ++;
+    }
 
-                //glDisable(GL_DEPTH_TEST);
-                glDrawArrays(GL_TRIANGLES, 0, 6);
-                Debug::glErrorCheck();
-
-                isOutline = !isOutline;
-                textureSlot ++;
-            }
-
-            auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-            if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
-                std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
-
-                Debug::glErrorCheck();
+    auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+        std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
 
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_defaultFBO);
-    Debug::glErrorCheck();
-        glViewport(0, 0, m_screen_width, m_screen_height);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUseProgram(m_postprocess_shader);
-        glBindVertexArray(m_fullscreen_vao);
-        Debug::glErrorCheck();
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!isOutline]);
-        Debug::glErrorCheck();
-        //glBindTexture(GL_TEXTURE_2D, default_texture);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glUseProgram(0);
+    glViewport(0, 0, m_screen_width, m_screen_height);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glUseProgram(m_postprocess_shader);
+    glBindVertexArray(m_fullscreen_vao);
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!isOutline]);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glUseProgram(0);
 
     // Deactivate the shader program by passing 0 into
 }
@@ -654,10 +561,6 @@ void Realtime::resizeGL(int w, int h) {
     // Students: anything requiring OpenGL calls when the program starts should be done here
 
     glClearColor(0, 0, 0, 0);
-
-//    glDeleteTextures(1, &m_fbo_texture);
-//    glDeleteRenderbuffers(1, &m_fbo_renderbuffer);
-//    glDeleteFramebuffers(1, &m_fbo);
 
     m_screen_width = size().width() * m_devicePixelRatio;
     m_screen_height = size().height() * m_devicePixelRatio;
@@ -751,7 +654,6 @@ void Realtime::settingsChanged() {
             glBindVertexArray(0);
             m_updated = true;
         }
-
     }
 
     update(); // asks for a PaintGL() call to occur
@@ -877,8 +779,6 @@ void Realtime::bindSphere() {
     glBindBuffer(GL_ARRAY_BUFFER, 0); // Unbinds sphere Vbo
 }
 
-// ================== Project 6: Action!
-
 void Realtime::bindMesh() {
     makeCurrent();
     glBindVertexArray(m_meshVao);
@@ -922,39 +822,6 @@ void Realtime::makeFBO() {
 
     // Unbind the FBO
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-void Realtime::paintTexture(GLuint texture, GLuint texture2, bool perPixel, bool kernelBased, bool extraCredit1, bool extraCredit2) {
-    glUseProgram(m_texture_shader);
-//     Set your bool uniform on whether or not to filter the texture drawn
-    GLint perPixelLocation = glGetUniformLocation(m_texture_shader, "perPixel");
-    glUniform1i(perPixelLocation, perPixel);
-    GLint kernelBasedLocation = glGetUniformLocation(m_texture_shader, "kernelBased");
-    glUniform1i(kernelBasedLocation, kernelBased);
-    GLint ec1Location = glGetUniformLocation(m_texture_shader, "extraCredit1");
-    glUniform1i(ec1Location, extraCredit1);
-    GLint ec2Location = glGetUniformLocation(m_texture_shader, "extraCredit2");
-    glUniform1i(ec2Location, extraCredit2);
-
-    GLint widthLocation = glGetUniformLocation(m_texture_shader, "width");
-    glUniform1i(widthLocation, m_screen_width);
-    GLint heightLocation = glGetUniformLocation(m_texture_shader, "height");
-    glUniform1i(heightLocation, m_screen_height);
-
-
-    glBindVertexArray(m_fullscreen_vao);
-    // Bind "texture" to slot 0
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, texture2);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    glBindVertexArray(0);
-    glUseProgram(0);
-
 }
 
 void Realtime::keyPressEvent(QKeyEvent *event) {
@@ -1034,7 +901,6 @@ void Realtime::timerEvent(QTimerEvent *event) {
     }
     update();
 
-
     // Use deltaTime and m_keyMap here to move around
     float dx = 0.f, dy = 0.f, dz = 0.f;
     glm::vec3 look = m_camera.getLookVector();
@@ -1067,9 +933,6 @@ void Realtime::timerEvent(QTimerEvent *event) {
     if (m_keyMap[Qt::Key_Space] == true) {
         dy += 1;
     }
-//    if (m_keyMap[Qt::Key_R] == true) {
-
-//    }
 
     if (dx != 0 || dy != 0 || dz != 0) { // if a translation is occurring
         translate(5.f * deltaTime * dx, 5.f * deltaTime * dy, 5.f * deltaTime * dz);

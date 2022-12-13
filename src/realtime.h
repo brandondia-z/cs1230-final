@@ -59,7 +59,6 @@ private:
 
     void makeFBO();
     void makeSecondFBO();
-    void paintTexture(GLuint texture, GLuint texture2, bool perPixel, bool kernelBased, bool extraCredit1, bool extraCredit2);
 
     void translate(float dx, float dy, float dz);
     void rotate(glm::mat4 rotation);
@@ -111,7 +110,6 @@ private:
     bool m_isMesh = false;
 
     GLuint m_lighting_shader; // Stores id of lighting shader program
-    GLuint m_texture_shader; // Stores id of texture shader program
 
     GLuint m_fbo;
     GLuint m_fbo2;
