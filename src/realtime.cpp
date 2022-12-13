@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include <iostream>
 #include "debug.h"
+#include "glm/gtx/transform.hpp"
 #include "raytracer/raytracer.h"
 #include "raytracer/raytracescene.h"
 #include "settings.h"
@@ -337,6 +338,8 @@ void Realtime::paintGL() {
     glUniform1i(waterTimeLocation, m_water_time);
     GLint dispTimeLocation = glGetUniformLocation(m_lighting_shader, "displacement_time");
     glUniform1i(dispTimeLocation, m_displacement_time);
+    GLint heightTimeLocation = glGetUniformLocation(m_lighting_shader, "height_time");
+    glUniform1i(heightTimeLocation, m_displacement_time);
 
     // Pass in m_viewMatrix and m_projMatrix
     GLint viewLocation = glGetUniformLocation(m_lighting_shader, "viewMat");
@@ -451,9 +454,17 @@ void Realtime::paintGL() {
 
         glUniform1i(glGetUniformLocation(m_lighting_shader, "shapeType"), (int)shape.primitive.type);
 
+        GLint rotationLocation;
+        float coneMult = m_cone_id % 2 == 0 ? 1.f : -1.f;
+
         // Draw Command
         switch (shape.primitive.type) {
             case PrimitiveType::PRIMITIVE_CONE:
+                rotationLocation = glGetUniformLocation(m_lighting_shader, "rotationMat");
+
+                m_rotationMatrix = glm::rotate(coneMult * float(m_rotation_time), glm::vec3{0, 1, 0});
+                glUniformMatrix4fv(rotationLocation, 1, GL_FALSE, &m_rotationMatrix[0][0]);
+                m_cone_id++;
                 glBindVertexArray(m_coneVao);
                 m_numTriangles = m_coneData.size() / 6.f;
                 glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
@@ -466,10 +477,13 @@ void Realtime::paintGL() {
                 glBindVertexArray(0);
                 break;
             case PrimitiveType::PRIMITIVE_PLANE:
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 glBindVertexArray(m_planeVao);
                 m_numTriangles = m_planeData.size() / 6.f;
                 glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
                 glBindVertexArray(0);
+                glDisable(GL_BLEND);
                 break;
             case PrimitiveType::PRIMITIVE_CYLINDER:
                 glBindVertexArray(m_cylinderVao);
@@ -665,7 +679,7 @@ void Realtime::bindCone() {
     if (m_updated) {
         m_cone.updateParams(settings.shapeParameter1, settings.shapeParameter2);
     } else {
-        m_cone.updateParams(determineTesselation(), determineTesselation());
+        m_cone.updateParams(1, 6);
     }
     m_coneData = m_cone.generateShape();
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m_coneData.size(), m_coneData.data(), GL_STATIC_DRAW); // passes cone data into vbo
@@ -898,6 +912,9 @@ void Realtime::timerEvent(QTimerEvent *event) {
     }
     if (m_displacement_time > 1280) {
         m_displacement_time = 0;
+    }
+    if (m_water_time % 2 == 0) {
+        m_rotation_time++;
     }
     update();
 

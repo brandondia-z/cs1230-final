@@ -1,12 +1,12 @@
 #pragma once
 
 // Defined before including GLEW to suppress deprecation messages on macOS
-#include "shapes/Plane.h"
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
 #endif
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include "glm/gtx/transform.hpp"
 
 #include <unordered_map>
 #include <QElapsedTimer>
@@ -19,6 +19,7 @@
 #include "shapes/Cube.h"
 #include "shapes/Cylinder.h"
 #include "shapes/Sphere.h"
+#include "shapes/Plane.h"
 
 class Realtime : public QOpenGLWidget
 {
@@ -96,6 +97,7 @@ private:
     int m_fbo_height;
     glm::mat4 m_viewMatrix = glm::mat4(1);
     glm::mat4 m_projMatrix = glm::mat4(1);
+    glm::mat4 m_rotationMatrix = glm::mat4(1);
 
     std::vector<GLfloat> m_coneData;
     std::vector<GLfloat> m_cubeData;
@@ -143,6 +145,8 @@ private:
     GLuint m_displacement_texture;
     int m_water_time;
     int m_displacement_time;
+    int m_rotation_time;
+    int m_cone_id = 0;
 
     GLuint m_height_texture;
 
