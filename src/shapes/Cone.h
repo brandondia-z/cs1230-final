@@ -12,6 +12,8 @@ public:
 private:
     void insertVec3(std::vector<float> &data, glm::vec3 v);
     void setVertexData();
+    void insertVec2(std::vector<float> &data, glm::vec2 v);
+    glm::vec2 getUV(glm::vec3 objPoint);
     void makeTile(glm::vec3 topLeft,
                   glm::vec3 topRight,
                   glm::vec3 bottomLeft,

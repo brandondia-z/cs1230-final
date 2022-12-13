@@ -471,10 +471,13 @@ void Realtime::paintGL() {
                 glBindVertexArray(0);
                 break;
             case PrimitiveType::PRIMITIVE_CUBE:
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 glBindVertexArray(m_cubeVao);
                 m_numTriangles = m_cubeData.size() / 6.f;
                 glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
                 glBindVertexArray(0);
+                glDisable(GL_BLEND);
                 break;
             case PrimitiveType::PRIMITIVE_PLANE:
                 glEnable(GL_BLEND);
@@ -685,8 +688,10 @@ void Realtime::bindCone() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m_coneData.size(), m_coneData.data(), GL_STATIC_DRAW); // passes cone data into vbo
     glEnableVertexAttribArray(0); // adds position attribute
     glEnableVertexAttribArray(1); // adds normal attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(0 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(6 * sizeof(GLfloat)));
     glBindBuffer(GL_ARRAY_BUFFER, 0); // Unbinds cone Vbo
 }
 
@@ -771,8 +776,10 @@ void Realtime::bindCylinder() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m_cylinderData.size(), m_cylinderData.data(), GL_STATIC_DRAW); // passes cylinder data into vbo
     glEnableVertexAttribArray(0); // adds position attribute
     glEnableVertexAttribArray(1); // adds normal attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(0 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(6 * sizeof(GLfloat)));
     glBindBuffer(GL_ARRAY_BUFFER, 0); // Unbinds cylinder Vbo
 }
 
@@ -788,8 +795,10 @@ void Realtime::bindSphere() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m_sphereData.size(), m_sphereData.data(), GL_STATIC_DRAW); // passes sphere data into vbo
     glEnableVertexAttribArray(0); // adds position attribute
     glEnableVertexAttribArray(1); // adds normal attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(0 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, reinterpret_cast<void*>(6 * sizeof(GLfloat)));
     glBindBuffer(GL_ARRAY_BUFFER, 0); // Unbinds sphere Vbo
 }
 

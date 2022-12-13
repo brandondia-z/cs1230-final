@@ -33,17 +33,27 @@ void Cone::makeTile(glm::vec3 topLeft,
 
     insertVec3(m_vertexData, topLeft);
     insertVec3(m_vertexData, TLNorm);
+    insertVec2(m_vertexData, getUV(topLeft));
+
     insertVec3(m_vertexData, bottomLeft);
     insertVec3(m_vertexData, BLNorm);
-    insertVec3(m_vertexData, topRight);
-    insertVec3(m_vertexData, TRNorm);
+    insertVec2(m_vertexData, getUV(bottomLeft));
 
     insertVec3(m_vertexData, topRight);
     insertVec3(m_vertexData, TRNorm);
+    insertVec2(m_vertexData, getUV(topRight));
+
+    insertVec3(m_vertexData, topRight);
+    insertVec3(m_vertexData, TRNorm);
+    insertVec2(m_vertexData, getUV(topRight));
+
     insertVec3(m_vertexData, bottomLeft);
     insertVec3(m_vertexData, BLNorm);
+    insertVec2(m_vertexData, getUV(bottomLeft));
+
     insertVec3(m_vertexData, bottomRight);
     insertVec3(m_vertexData, BRNorm);
+    insertVec2(m_vertexData, getUV(bottomRight));
 }
 
 void Cone::makeWedge(float currentTheta, float nextTheta) {
@@ -129,4 +139,24 @@ void Cone::insertVec3(std::vector<float> &data, glm::vec3 v) {
 
 float Cone::euclideanDistance(float x, float z) {
     return sqrt(pow(x, 2) + pow(z, 2));
+}
+
+glm::vec2 Cone::getUV(glm::vec3 objPoint) {
+    float u;
+    float v;
+    float theta;
+    if (objPoint.y == -0.5f) {
+        u = objPoint.x + 0.5f;
+        v = objPoint.z + 0.5f;
+    } else {
+        v = objPoint.y + 0.5f;
+        theta = atan2(objPoint.z, objPoint.x);
+        u = (theta  < 0) ? (-theta/(2*M_PI)) : (1 - (theta/(2*M_PI)));
+    }
+    return glm::vec2(u, v);
+}
+
+void Cone::insertVec2(std::vector<float> &data, glm::vec2 v) {
+    data.push_back(v.x);
+    data.push_back(v.y);
 }
