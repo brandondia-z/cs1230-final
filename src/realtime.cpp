@@ -128,7 +128,7 @@ void Realtime::initializePixelation(){
 
         //pass in uniforms
         glUseProgram(m_pixeloutline_shader);
-        //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 4);
+        glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 4);
         glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "image_width"), size().width());
         glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "image_height"), size().height());
 
@@ -166,26 +166,33 @@ void Realtime::initializePixelation(){
 
         glGenFramebuffers(2, pingpongFBO);
         glGenTextures(2, pingpongBuffer);
-        int textureSlot = 1;
+        int textureSlot = 4;
         for (unsigned int i=0; i<2; i++){
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[i]);
 
             // binds at correct texture slot
-            glActiveTexture(GL_TEXTURE3 + textureSlot);
+            glActiveTexture(GL_TEXTURE0 + textureSlot);
             glBindTexture(GL_TEXTURE_2D, pingpongBuffer[i]);
-            glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 3+textureSlot);
+            //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), textureSlot);
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_fbo_width, m_fbo_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            std::cout << "Color buffer: " << pingpongBuffer[i] << std::endl;
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pingpongBuffer[i], 0);
+            Debug::glErrorCheck();
+
             if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
                 std::cout << "failed" << std::endl;
+
             }
-            textureSlot ++;
+
+            textureSlot++;
         }
+
+        Debug::glErrorCheck();
 }
 
 void Realtime::initializeGL() {
@@ -226,6 +233,7 @@ void Realtime::initializeGL() {
     m_pixeloutline_shader = ShaderLoader::createShaderProgram(":/resources/shaders/pixelation.vert", ":/resources/shaders/pixeloutline.frag");
 
 
+    initializePixelation();
     m_currParam1 = settings.shapeParameter1;
     m_currParam2 = settings.shapeParameter2;
     m_nearPlane = settings.nearPlane;
@@ -323,7 +331,7 @@ void Realtime::initializeGL() {
     //glUseProgram(0);
 
     // ACTIVATE PIXELATION
-    initializePixelation();
+    //initializePixelation();
 
 //    std::vector<GLfloat> fullscreen_quad_data =
 //    { //     POSITIONS    //
@@ -551,7 +559,7 @@ void Realtime::paintGL() {
 
             bool isOutline = true;
             bool first_iteration = true;
-            int textureSlot = 1;
+            int textureSlot = 5;
 
             for (unsigned int i =0; i<2; i++){
                 glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[isOutline]);
@@ -563,8 +571,10 @@ void Realtime::paintGL() {
                     glBindTexture(GL_TEXTURE_2D, default_texture);
                     //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 4);
                     first_iteration = false;
+                    //glBindTexture(GL_TEXTURE_2D, 0);
+
                 } else {
-                    glActiveTexture(GL_TEXTURE4 + textureSlot);
+                    glActiveTexture(GL_TEXTURE0 + textureSlot);
                     glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!isOutline]);
                     //glUniform1i(glGetUniformLocation(m_pixeloutline_shader, "m_texture"), 5);
 
@@ -572,6 +582,8 @@ void Realtime::paintGL() {
                 Debug::glErrorCheck();
 
                 glBindVertexArray(m_fullscreen_vao);
+                Debug::glErrorCheck();
+
                 //glDisable(GL_DEPTH_TEST);
                 glDrawArrays(GL_TRIANGLES, 0, 6);
                 Debug::glErrorCheck();
@@ -579,6 +591,12 @@ void Realtime::paintGL() {
                 isOutline = !isOutline;
                 textureSlot ++;
             }
+
+            auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+            if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+                std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
+
+                Debug::glErrorCheck();
 
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_defaultFBO);
@@ -588,10 +606,10 @@ void Realtime::paintGL() {
         glUseProgram(m_postprocess_shader);
         glBindVertexArray(m_fullscreen_vao);
         Debug::glErrorCheck();
-        //glActiveTexture(GL_TEXTURE5);
+        glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!isOutline]);
         Debug::glErrorCheck();
-       // glBindTexture(GL_TEXTURE_2D, default_texture);
+        //glBindTexture(GL_TEXTURE_2D, default_texture);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glUseProgram(0);
 

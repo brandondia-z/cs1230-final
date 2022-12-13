@@ -52,8 +52,6 @@ void main(){       // set fragColor using the sampler2D at the UV coordinate
         vec4 outlineColor = vec4(1.0);
 
         fragColor = vec4(mix(fragColor, outlineColor, outline));
-//            float intensity = (0.299 * fragColor.x) + (0.587 * fragColor.y) + (0.114 * fragColor.z);
-//            fragColor = vec4(intensity, intensity, intensity, 1);
 
 }
 

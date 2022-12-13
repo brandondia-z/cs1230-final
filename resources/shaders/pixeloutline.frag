@@ -73,7 +73,7 @@ void main(){       // set fragColor using the sampler2D at the UV coordinate
 
         //}
 
-            fragColor = vec4(1.f);
+           // fragColor = vec4(1.f);
 
 }
 
