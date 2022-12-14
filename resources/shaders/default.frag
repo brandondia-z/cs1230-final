@@ -63,7 +63,8 @@ void main() {
         fragColor = texture(marble_sampler, vec2(uvCoords.x, uvCoords.y));
     } else if (shapeType == 1) {
         fragColor = texture(diamond_sampler, vec2(uvCoords.x, uvCoords.y));
-    }  if (shapeType != 6 && shapeType != 1) { 
+    }
+    if (shapeType != 6) { // not Plane and not Cone
         // Add ambient component to output
         float red = ambient * materialAmbient.x;
         float green = ambient * materialAmbient.y;
@@ -184,7 +185,7 @@ void main() {
         fragColor = vec4(red, green, blue, 1.f);
         if (shapeType == 7) {
 
-            fragColor = vec4(143.f/256.f, 219.f/256.f, 242.f/256.f, 0.3f);
+            fragColor = vec4(143.f/256.f, 219.f/256.f, 242.f/256.f, 0.18f);
         }
 
     }
