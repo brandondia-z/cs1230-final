@@ -10,6 +10,8 @@ uniform int image_height;
 
 out vec4 fragColor;
 
+
+// sobel outline referenced from https://gist.github.com/Hebali/6ebfc66106459aacee6a9fac029d0115
 void make_kernel(inout vec4 n[9], sampler2D tex, vec2 coord){
     float w = 1.0 / image_width;
     float h = 1.0 / image_height;

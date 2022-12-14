@@ -160,7 +160,8 @@ void main() {
         }
         fragColor = vec4(red, green, blue, 1.f);
         if (shapeType == 7) {
-            fragColor.a = 0.5f;
+
+            fragColor = vec4(143.f/256.f, 219.f/256.f, 242.f/256.f, 0.3f);
         }
 
     }
