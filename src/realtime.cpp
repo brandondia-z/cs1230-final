@@ -507,10 +507,13 @@ void Realtime::paintGL() {
                 glBindVertexArray(0);
                 break;
             case PrimitiveType::PRIMITIVE_INVERTCUBE:
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 glBindVertexArray(m_invertCubeVao);
                 m_numTriangles = m_invertCubeData.size() / 6.f;
                 glDrawArrays(GL_TRIANGLES, 0, m_numTriangles);
                 glBindVertexArray(0);
+                glDisable(GL_BLEND);
                 break;
             default:
                 glBindVertexArray(m_cubeVao);
