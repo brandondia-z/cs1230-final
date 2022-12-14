@@ -13,6 +13,7 @@ uniform sampler2D water_sampler;
 uniform sampler2D displacement_sampler;
 uniform sampler2D stone_sampler;
 uniform sampler2D marble_sampler;
+uniform sampler2D diamond_sampler;
 
 // scrolling
 uniform int water_time;
@@ -58,8 +59,9 @@ void main() {
         fragColor = texture(stone_sampler, vec2(uvCoords.x, uvCoords.y));
     } else if (shapeType == 2) {
         fragColor = texture(marble_sampler, vec2(uvCoords.x, uvCoords.y));
-    }
-    else {
+    } else if (shapeType == 1) {
+        fragColor = texture(diamond_sampler, vec2(uvCoords.x, uvCoords.y));
+    } else {
         // Add ambient component to output
         float red = ambient * materialAmbient.x;
         float green = ambient * materialAmbient.y;

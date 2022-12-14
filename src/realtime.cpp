@@ -353,6 +353,23 @@ void Realtime::initializeGL() {
 
     glUniform1i(glGetUniformLocation(m_lighting_shader, "marble_sampler"), 9);
 
+
+    QString diamond_filepath = QString(":/resources/images/diamond.png"); // Prepare filepath
+    QImage diamond_image = QImage(diamond_filepath); // Obtain image from filepath
+    diamond_image = diamond_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
+
+    glGenTextures(1, &m_diamond_texture);
+    glActiveTexture(GL_TEXTURE10);
+    glBindTexture(GL_TEXTURE_2D, m_diamond_texture); // Bind texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, diamond_image.width(), diamond_image.height(),
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, diamond_image.bits()); // Load image into texture
+    // Set min and mag filters' interpolation mode to linear
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture
+
+    glUniform1i(glGetUniformLocation(m_lighting_shader, "diamond_sampler"), 10);
+
     m_setupComplete = true;
 }
 
@@ -412,6 +429,8 @@ void Realtime::paintGL() {
     glBindTexture(GL_TEXTURE_2D, m_stone_texture);
     glActiveTexture(GL_TEXTURE9);
     glBindTexture(GL_TEXTURE_2D, m_marble_texture);
+    glActiveTexture(GL_TEXTURE10);
+    glBindTexture(GL_TEXTURE_2D, m_diamond_texture);
 
     GLint typeLocation;
     GLint colorLocation;
