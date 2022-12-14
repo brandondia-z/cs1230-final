@@ -2,10 +2,10 @@
 /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/shapes/Plane.cpp
 /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/shaderloader.h
 /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/camera/camera.h
-/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/shapes/Plane.h
+/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/debug.h
 /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/utils/sceneparser.cpp
 /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/shapes/Cylinder.cpp
-/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/debug.h
+/Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/shapes/Plane.h
 /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/raytracer/raytracer.h
 /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/utils/OBJ_Loader.h
 /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/src/realtime.h

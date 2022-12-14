@@ -12,6 +12,8 @@ out vec4 fragColor;
 uniform sampler2D water_sampler;
 uniform sampler2D displacement_sampler;
 uniform sampler2D stone_sampler;
+uniform sampler2D marble_sampler;
+uniform sampler2D diamond_sampler;
 
 // scrolling
 uniform int water_time;
@@ -43,28 +45,34 @@ uniform vec4 materialDiffuse;
 // Specular lighting
 uniform float specular;
 uniform float shininess;
+uniform float blend;
 uniform vec4 materialSpecular;
 
 uniform vec4 cameraPos;
 
 void main() {
 
-    if (shapeType == 6) {
+    if (shapeType == 6) { // Plane
         vec4 displacement = texture(displacement_sampler,vec2(uvCoords.x+(displacement_time/1200.f), uvCoords.y-(displacement_time/1200.f)));
         fragColor = texture(water_sampler,vec2(uvCoords.x+displacement.g-(water_time/640.f), uvCoords.y+displacement.g+(water_time/640.f)));
         fragColor.a = 0.5f;
-    } else if (shapeType == 0) {
+    } else if (shapeType == 0) { // Cube
         fragColor = texture(stone_sampler, vec2(uvCoords.x, uvCoords.y));
+    
+    } else if (shapeType == 2) {
+        fragColor = texture(marble_sampler, vec2(uvCoords.x, uvCoords.y));
+    } else if (shapeType == 1) {
+        fragColor = texture(diamond_sampler, vec2(uvCoords.x, uvCoords.y));
     }
-    else {
+    if (shapeType != 6) { // not Plane and not Cone
         // Add ambient component to output
         float red = ambient * materialAmbient.x;
         float green = ambient * materialAmbient.y;
         float blue = ambient * materialAmbient.z;
 
         // variable declarations
-        float distance, atten, diffuseDotProd, specularDotProd, shininessCalc;
-        vec3 directionToLight, reflectedLight;
+        float distance, atten, diffuseDotProd, specularDotProd, shininessCalc, interpolationR, interpolationG, interpolationB;
+        vec3 directionToLight, reflectedLight, textureColor;
 
         for (int i = 0; i < numLights; i++) {
             vec3 directionToCamera = normalize(vec3(cameraPos) - worldPosition);
@@ -81,9 +89,13 @@ void main() {
                     directionToLight = normalize(vec3(lighting[i].lightPos) - worldPosition);
                     diffuseDotProd = min(1.f, max(0.f, dot(normalize(worldNormal), directionToLight)));
 
-                    red += (atten * lighting[i].color.x * diffuse * materialDiffuse.x * diffuseDotProd);
-                    green += (atten * lighting[i].color.y * diffuse * materialDiffuse.y * diffuseDotProd);
-                    blue += (atten * lighting[i].color.z * diffuse * materialDiffuse.z * diffuseDotProd);
+                    interpolationR = (blend * fragColor.r) + ((1.f - blend) * (diffuse * materialDiffuse.x));
+                    interpolationG = (blend * fragColor.g) + ((1.f - blend) * (diffuse * materialDiffuse.y));
+                    interpolationB = (blend * fragColor.b) + ((1.f - blend) * (diffuse * materialDiffuse.z));
+
+                    red += (atten * lighting[i].color.x * interpolationR * diffuseDotProd);
+                    green += (atten * lighting[i].color.y * interpolationG * diffuseDotProd);
+                    blue += (atten * lighting[i].color.z * interpolationB * diffuseDotProd);
 
                     // specular component
                     reflectedLight = normalize(reflect(-directionToLight, normalize(worldNormal)));
@@ -99,9 +111,13 @@ void main() {
                     // diffuse component
                     diffuseDotProd = min(1.f, max(0.f, dot(normalize(worldNormal), vec3(normalize(-lighting[i].lightDir)))));
 
-                    red += (lighting[i].color.x * diffuse * materialDiffuse.x * diffuseDotProd);
-                    green += (lighting[i].color.y * diffuse * materialDiffuse.y * diffuseDotProd);
-                    blue += (lighting[i].color.z * diffuse * materialDiffuse.z * diffuseDotProd);
+                    interpolationR = (blend * fragColor.r) + ((1.f - blend) * (diffuse * materialDiffuse.r));
+                    interpolationG = (blend * fragColor.g) + ((1.f - blend) * (diffuse * materialDiffuse.g));
+                    interpolationB = (blend * fragColor.b) + ((1.f - blend) * (diffuse * materialDiffuse.b));
+
+                    red += (lighting[i].color.x * interpolationR * diffuseDotProd);
+                    green += (lighting[i].color.y * interpolationG * diffuseDotProd);
+                    blue += (lighting[i].color.z * interpolationB * diffuseDotProd);
 
                     // specular component
                     reflectedLight = normalize(reflect(normalize(vec3(lighting[i].lightDir)), normalize(worldNormal)));
@@ -143,9 +159,13 @@ void main() {
                         break;
                     }
 
-                    red += (atten * redColor * diffuse * materialDiffuse.x * diffuseDotProd);
-                    green += (atten * greenColor * diffuse * materialDiffuse.y * diffuseDotProd);
-                    blue += (atten * blueColor * diffuse * materialDiffuse.z * diffuseDotProd);
+                    interpolationR = (blend * fragColor.r) + ((1.f - blend) * (diffuse * materialDiffuse.x));
+                    interpolationG = (blend * fragColor.g) + ((1.f - blend) * (diffuse * materialDiffuse.y));
+                    interpolationB = (blend * fragColor.b) + ((1.f - blend) * (diffuse * materialDiffuse.z));
+
+                    red += (atten * redColor * interpolationR * diffuseDotProd);
+                    green += (atten * greenColor * interpolationG * diffuseDotProd);
+                    blue += (atten * blueColor * interpolationB * diffuseDotProd);
 
                     // specular component
                     reflectedLight = normalize(reflect(-directionToLight, normalize(worldNormal)));
@@ -165,7 +185,7 @@ void main() {
         fragColor = vec4(red, green, blue, 1.f);
         if (shapeType == 7) {
 
-            fragColor = vec4(143.f/256.f, 219.f/256.f, 242.f/256.f, 0.3f);
+            fragColor = vec4(143.f/256.f, 219.f/256.f, 242.f/256.f, 0.18f);
         }
 
     }

@@ -94,6 +94,8 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
         resources/images/water_texture.png
         resources/images/heightNoise2.png
         resources/images/stoneImage.png
+        resources/images/pillar.png
+        resources/images/diamond.png
 
         resources/shaders/pixelation.frag
         resources/shaders/pixeloutline.frag
