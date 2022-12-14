@@ -11,6 +11,7 @@ out vec4 fragColor;
 // textures
 uniform sampler2D water_sampler;
 uniform sampler2D displacement_sampler;
+uniform sampler2D stone_sampler;
 
 // scrolling
 uniform int water_time;
@@ -52,7 +53,10 @@ void main() {
         vec4 displacement = texture(displacement_sampler,vec2(uvCoords.x+(displacement_time/1200.f), uvCoords.y-(displacement_time/1200.f)));
         fragColor = texture(water_sampler,vec2(uvCoords.x+displacement.g-(water_time/640.f), uvCoords.y+displacement.g+(water_time/640.f)));
         fragColor.a = 0.5f;
-    } else {
+    } if (shapeType == 0) {
+        fragColor = texture(stone_sampler, vec2(uvCoords.x, uvCoords.y));
+    }
+    else {
         // Add ambient component to output
         float red = ambient * materialAmbient.x;
         float green = ambient * materialAmbient.y;

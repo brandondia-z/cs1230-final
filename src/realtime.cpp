@@ -320,6 +320,24 @@ void Realtime::initializeGL() {
     GLuint loc = glGetUniformLocation(m_lighting_shader, "height_sampler");
     glUniform1i(loc, 2);
 
+
+    /// HEIGHT MAPPING
+    QString stone_filepath = QString(":/resources/images/stoneImage.png"); // Prepare filepath
+    QImage stone_image = QImage(height_filepath); // Obtain image from filepath
+    height_image = height_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
+
+    glGenTextures(1, &m_stone_texture);
+    glActiveTexture(GL_TEXTURE8);
+    glBindTexture(GL_TEXTURE_2D, m_stone_texture); // Bind texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, stone_image.width(), stone_image.height(),
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, stone_image.bits()); // Load image into texture
+    // Set min and mag filters' interpolation mode to linear
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture
+
+    glUniform1i(glGetUniformLocation(m_lighting_shader, "stone_sampler"), 8);
+
     m_setupComplete = true;
 }
 
@@ -375,6 +393,8 @@ void Realtime::paintGL() {
     glBindTexture(GL_TEXTURE_2D, m_displacement_texture);
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, m_height_texture);
+    glActiveTexture(GL_TEXTURE8);
+    glBindTexture(GL_TEXTURE_2D, m_stone_texture);
 
     GLint typeLocation;
     GLint colorLocation;
