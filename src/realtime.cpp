@@ -463,6 +463,9 @@ void Realtime::paintGL() {
         GLint shininessLocation = glGetUniformLocation(m_lighting_shader, "shininess");
         glUniform1f(shininessLocation, shape.primitive.material.shininess);
 
+        GLint blendLocation = glGetUniformLocation(m_lighting_shader, "blend");
+        glUniform1f(blendLocation, shape.primitive.material.blend);
+
         GLint materialAmbient = glGetUniformLocation(m_lighting_shader, "materialAmbient");
         glUniform4fv(materialAmbient, 1, &shape.primitive.material.cAmbient[0]);
 
