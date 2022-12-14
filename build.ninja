@@ -355,7 +355,7 @@ build StaticGLEW_autogen: phony CMakeFiles/StaticGLEW_autogen StaticGLEW_autogen
 #############################################
 # Custom command for .rcc/qrc_Resources.cpp
 
-build .rcc/qrc_Resources.cpp | ${cmake_ninja_workdir}.rcc/qrc_Resources.cpp: CUSTOM_COMMAND resources/shaders/default.frag resources/shaders/default.vert resources/images/displacement_texture.png resources/images/water_texture.png resources/images/heightNoise2.png resources/shaders/pixelation.frag resources/shaders/pixeloutline.frag resources/shaders/pixelation.vert .rcc/Resources.qrc /Users/brandondiaz/Qt/6.2.4/macos/./libexec/rcc || StaticGLEW_autogen StaticGLEW_autogen_timestamp_deps cs1230-final_autogen cs1230-final_autogen_timestamp_deps libStaticGLEW.a
+build .rcc/qrc_Resources.cpp | ${cmake_ninja_workdir}.rcc/qrc_Resources.cpp: CUSTOM_COMMAND resources/shaders/default.frag resources/shaders/default.vert resources/images/displacement_texture.png resources/images/water_texture.png resources/images/heightNoise2.png resources/images/stoneImage.png resources/shaders/pixelation.frag resources/shaders/pixeloutline.frag resources/shaders/pixelation.vert .rcc/Resources.qrc /Users/brandondiaz/Qt/6.2.4/macos/./libexec/rcc || StaticGLEW_autogen StaticGLEW_autogen_timestamp_deps cs1230-final_autogen cs1230-final_autogen_timestamp_deps libStaticGLEW.a
   COMMAND = cd /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final && /Users/brandondiaz/Qt/6.2.4/macos/./libexec/rcc --output /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/.rcc/qrc_Resources.cpp --name Resources /Users/brandondiaz/Downloads/CS/cs1230/cs1230-final/.rcc/Resources.qrc --no-zstd
   DESC = Running rcc for resource Resources
   restat = 1
@@ -384,7 +384,7 @@ build StaticGLEW_autogen/timestamp StaticGLEW_autogen/mocs_compilation.cpp | ${c
 #############################################
 # Phony custom command for CMakeFiles/cs1230-final_autogen_timestamp_deps
 
-build CMakeFiles/cs1230-final_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/cs1230-final_autogen_timestamp_deps: phony /Users/brandondiaz/Qt/6.2.4/macos/./libexec/moc /Users/brandondiaz/Qt/6.2.4/macos/./libexec/uic libStaticGLEW.a || StaticGLEW_autogen StaticGLEW_autogen_timestamp_deps libStaticGLEW.a
+build CMakeFiles/cs1230-final_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/cs1230-final_autogen_timestamp_deps: phony /Users/brandondiaz/Qt/6.2.4/macos/./libexec/uic /Users/brandondiaz/Qt/6.2.4/macos/./libexec/moc libStaticGLEW.a || StaticGLEW_autogen StaticGLEW_autogen_timestamp_deps libStaticGLEW.a
 
 
 #############################################
@@ -396,7 +396,7 @@ build CMakeFiles/cs1230-final_autogen | ${cmake_ninja_workdir}CMakeFiles/cs1230-
 #############################################
 # Phony custom command for CMakeFiles/StaticGLEW_autogen_timestamp_deps
 
-build CMakeFiles/StaticGLEW_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/StaticGLEW_autogen_timestamp_deps: phony /Users/brandondiaz/Qt/6.2.4/macos/./libexec/moc /Users/brandondiaz/Qt/6.2.4/macos/./libexec/uic
+build CMakeFiles/StaticGLEW_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/StaticGLEW_autogen_timestamp_deps: phony /Users/brandondiaz/Qt/6.2.4/macos/./libexec/uic /Users/brandondiaz/Qt/6.2.4/macos/./libexec/moc
 
 
 #############################################
