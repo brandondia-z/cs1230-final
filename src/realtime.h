@@ -143,6 +143,7 @@ private:
     QImage m_displacement_image;
     GLuint m_water_texture;
     GLuint m_stone_texture;
+    GLuint m_marble_texture;
     GLuint m_displacement_texture;
     int m_water_time;
     int m_displacement_time;

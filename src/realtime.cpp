@@ -321,7 +321,6 @@ void Realtime::initializeGL() {
     glUniform1i(loc, 2);
 
 
-    /// HEIGHT MAPPING
     QString stone_filepath = QString(":/resources/images/stoneImage.png"); // Prepare filepath
     QImage stone_image = QImage(stone_filepath); // Obtain image from filepath
     stone_image = stone_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
@@ -337,6 +336,22 @@ void Realtime::initializeGL() {
     glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture
 
     glUniform1i(glGetUniformLocation(m_lighting_shader, "stone_sampler"), 8);
+
+    QString marble_filepath = QString(":/resources/images/pillar.png"); // Prepare filepath
+    QImage marble_image = QImage(marble_filepath); // Obtain image from filepath
+    marble_image = marble_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
+
+    glGenTextures(1, &m_marble_texture);
+    glActiveTexture(GL_TEXTURE9);
+    glBindTexture(GL_TEXTURE_2D, m_marble_texture); // Bind texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, marble_image.width(), marble_image.height(),
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, marble_image.bits()); // Load image into texture
+    // Set min and mag filters' interpolation mode to linear
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture
+
+    glUniform1i(glGetUniformLocation(m_lighting_shader, "marble_sampler"), 9);
 
     m_setupComplete = true;
 }
@@ -395,6 +410,8 @@ void Realtime::paintGL() {
     glBindTexture(GL_TEXTURE_2D, m_height_texture);
     glActiveTexture(GL_TEXTURE8);
     glBindTexture(GL_TEXTURE_2D, m_stone_texture);
+    glActiveTexture(GL_TEXTURE9);
+    glBindTexture(GL_TEXTURE_2D, m_marble_texture);
 
     GLint typeLocation;
     GLint colorLocation;
