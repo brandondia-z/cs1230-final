@@ -323,8 +323,8 @@ void Realtime::initializeGL() {
 
     /// HEIGHT MAPPING
     QString stone_filepath = QString(":/resources/images/stoneImage.png"); // Prepare filepath
-    QImage stone_image = QImage(height_filepath); // Obtain image from filepath
-    height_image = height_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
+    QImage stone_image = QImage(stone_filepath); // Obtain image from filepath
+    stone_image = stone_image.convertToFormat(QImage::Format_RGBA8888).mirrored(); // Format image to fit OpenGL
 
     glGenTextures(1, &m_stone_texture);
     glActiveTexture(GL_TEXTURE8);

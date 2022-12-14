@@ -43,7 +43,8 @@ void main(){       // set fragColor using the sampler2D at the UV coordinate
     vec4 sobel = sqrt((sobel_edge_h * sobel_edge_h) + (sobel_edge_v * sobel_edge_v));
 
     vec4 outline = vec4(sobel.rgb, 1.0 );
-    vec4 outlineColor = vec4(1.0);
+
+    vec4 outlineColor = vec4(116.f/256.f, 116.f/256.f, 148.f/256.f, 1.f);
 
     fragColor = vec4(mix(fragColor, outlineColor, outline));
 }

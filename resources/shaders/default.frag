@@ -53,7 +53,7 @@ void main() {
         vec4 displacement = texture(displacement_sampler,vec2(uvCoords.x+(displacement_time/1200.f), uvCoords.y-(displacement_time/1200.f)));
         fragColor = texture(water_sampler,vec2(uvCoords.x+displacement.g-(water_time/640.f), uvCoords.y+displacement.g+(water_time/640.f)));
         fragColor.a = 0.5f;
-    } if (shapeType == 0) {
+    } else if (shapeType == 0) {
         fragColor = texture(stone_sampler, vec2(uvCoords.x, uvCoords.y));
     }
     else {
