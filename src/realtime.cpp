@@ -514,15 +514,17 @@ void Realtime::paintGL() {
         glUniform1i(glGetUniformLocation(m_lighting_shader, "shapeType"), (int)shape.primitive.type);
 
         GLint rotationLocation;
+        GLint coneMultLocation;
         float coneMult = m_cone_id % 2 == 0 ? 1.f : -1.f;
 
         // Draw Command
         switch (shape.primitive.type) {
             case PrimitiveType::PRIMITIVE_CONE:
                 rotationLocation = glGetUniformLocation(m_lighting_shader, "rotationMat");
-
                 m_rotationMatrix = glm::rotate(coneMult * float(m_rotation_time), glm::vec3{0, 1, 0});
                 glUniformMatrix4fv(rotationLocation, 1, GL_FALSE, &m_rotationMatrix[0][0]);
+                coneMultLocation = glGetUniformLocation(m_lighting_shader, "coneMult");
+                glUniform1f(coneMultLocation, coneMult);
                 m_cone_id++;
                 glBindVertexArray(m_coneVao);
                 m_numTriangles = m_coneData.size() / 6.f;
@@ -646,7 +648,7 @@ void Realtime::resizeGL(int w, int h) {
     m_fbo_width = m_screen_width;
     m_fbo_height = m_screen_height;
 
-    makeFBO();
+    initializePixelation();
 
     // reset camera size/recalculate proj matrix
     m_camera.init(m_data.cameraData, size().width(), size().height());

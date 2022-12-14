@@ -14,33 +14,62 @@
 
 	<lightdata>
 		<id v="0"/>
-		<color r="1" g="1" b=".8784"/>
+		<color r=".3" g=".4" b=".9"/>
 		<type v="point"/>
 		<position x="0" y="-.5" z="-.2"/>
-        <function x="0" y="0.4" z="0.7"/>
+        <function x="0.0" y="0.4" z="0.3"/>
 	</lightdata>
 
-
-    <!-- <lightdata>
-		<id v="0"/>
+    <lightdata>
+		<id v="1"/>
 		<type v="spot"/>
-		<color r="1" g="1" b=".8784"/>
+		<color r=".9215" g=".8235" b=".576"/>
 		<direction x="0" y="-1" z="0"/>
 		<position x="0" y="9" z="-.2"/>
 		<penumbra v="2"/>
 		<angle v="5"/>
-		<function x="0" y="0.05" z="0.0"/>
+		<function x="0" y="0.05" z="0.2"/>
 	</lightdata>
-     <lightdata>
+	<!-- cone bottom point light -->
+	<lightdata>
 		<id v="2"/>
+		<color r=".45" g=".839" b=".957"/>
+		<type v="point"/>
+		<position x="0" y="-.25" z="-.2"/>
+        <function x="0" y="0.4" z="0.8"/>
+	</lightdata>
+    <lightdata>
+		<id v="3"/>
 		<type v="spot"/>
-		<color r="1" g="1" b=".8784"/>
+		<color r=".9215" g=".8235" b=".576"/>
 		<direction x="0" y="-1" z="0"/>
 		<position x="0" y="9" z="-.2"/>
-		<penumbra v="10"/>
-		<angle v="15"/>
-		<function x="0.8" y="0.05" z="0.1"/>
-	</lightdata>  -->
+		<penumbra v="5"/>
+		<angle v="5"/>
+		<function x="0.2" y="0.35" z="0.0"/>
+	</lightdata> 
+	<lightdata>
+		<id v="4"/>
+		<type v="spot"/>
+		<color r=".9215" g=".8235" b=".576"/>
+		<direction x="0" y="-1" z="0"/>
+		<position x="0" y="9" z="-.2"/>
+		<penumbra v="5"/>
+		<angle v="3"/>
+		<function x="0.8" y="0.15" z="0.0"/>
+	</lightdata>
+	<lightdata>
+		<id v="5"/>
+		<type v="spot"/>
+		<color r=".9215" g=".8235" b=".576"/>
+		<direction x="0" y="-1" z="0"/>
+		<position x="0" y="-1" z="-.2"/>
+		<penumbra v="5"/>
+		<angle v="40"/>
+		<function x="0.8" y="0.05" z="0.0"/>
+	</lightdata>
+	
+	
 
 	<object type="tree" name="root">
 		<transblock>
@@ -48,29 +77,30 @@
 				<diffuse r=".678" g=".847" b=".902"/>
 				<specular r=".5" g=".5" b=".5"/>
 				<shininess v="2.0"/>
-                <blend v="0.0" />
+                <blend v="1.0" />
 			</object>
 			<scale x=".4" y=".25" z=".4" />
-			<translate x="0" y="-2" z="-1"/>
+			<translate x="0" y="-3" z="-1"/>
 
 		</transblock>
 		<transblock>
 			<object type="primitive" name="cone" >
+                <ambient r=".5" g=".9" b=".99" />
 				<diffuse r=".678" g=".847" b=".902"/>
 				<specular r="1.0" g="1.0" b="1.0"/>
 				<shininess v="2.0"/>
-                <blend v="0.0" />
+                <blend v="1.0" />
 			</object>
 			<rotate x="1" y="0" z="0" angle="180"/>
 			<scale x=".4" y=".25" z=".4" />
-			<translate x="0" y="3" z="1"/>
+			<translate x="0" y="4" z="1"/>
 		</transblock>
 
 
 		<!-- FIRST WALL -->
 		<transblock>
 			<object type="primitive" name="cube" >
-				<diffuse r="1" g="1" b="1"/>
+				<diffuse r="0" g="0" b="1"/>
 				<specular r="1.0" g="1.0" b="1.0"/>
 				<shininess v="2.0"/>
                 <blend v="1.0" />
@@ -366,6 +396,7 @@
         <!-- LEFT PILLAR -->
         <transblock>
 	    	<object type="primitive" name="cylinder" >
+                <ambient r=".082" g=".136" b=".148" />
 				<diffuse r="1" g="1" b="1"/>
                 <blend v="1.0" />
 	    	</object>
@@ -374,6 +405,7 @@
 		</transblock>
         <transblock>
 	    	<object type="primitive" name="cube" >
+                <ambient r=".082" g=".136" b=".148" />
 				<diffuse r="1" g="1" b="1"/>
                 <blend v="1.0" />
 	    	</object>
@@ -382,6 +414,7 @@
 		</transblock>
         <transblock>
 	    	<object type="primitive" name="cube" >
+                <ambient r=".082" g=".136" b=".148" />
 				<diffuse r="1" g="1" b="1"/>
                 <blend v="1.0" />
 	    	</object>
@@ -392,6 +425,7 @@
         <!-- RIGHT PILLAR -->
         <transblock>
 	    	<object type="primitive" name="cylinder" >
+                <ambient r=".082" g=".136" b=".148" />
 				<diffuse r="1" g="1" b="1"/>
                 <blend v="1.0" />
 	    	</object>
@@ -400,6 +434,7 @@
 		</transblock>
         <transblock>
 	    	<object type="primitive" name="cube" >
+                <ambient r=".082" g=".136" b=".148" />
 				<diffuse r="1" g="1" b="1"/>
                 <blend v="1.0" />
 	    	</object>
@@ -408,6 +443,7 @@
 		</transblock>
         <transblock>
 	    	<object type="primitive" name="cube" >
+                <ambient r=".082" g=".136" b=".148" />
 				<diffuse r="1" g="1" b="1"/>
                 <blend v="1.0" />
 	    	</object>
@@ -431,7 +467,7 @@
                 <blend v="1.0" />
 			</object>
 			<scale x="3" y="1" z="3" />
-            <translate x="0" y="-.73" z="-.3"/>
+            <translate x="0" y="-.79" z="-.3"/>
             <rotate x="0" y="1" z="0" angle="45"/>
 		</transblock>
 		<transblock>

@@ -12,6 +12,7 @@ out vec2 uvCoords;
 
 uniform sampler2D height_sampler;
 uniform int height_time;
+uniform float coneMult;
 
 // Model matrix (CTM)
 uniform mat4 modelMat;
@@ -30,7 +31,7 @@ void main() {
         float disp;
         disp = texture(height_sampler, layoutUvCoords + (height_time/15000.f)).r;
         vec4 displace = vec4(objectPosition, 1);
-        float displaceFactor = 0.1;
+        float displaceFactor = 0.2;
         float displaceBias = 0.0;
         displace.xyz += (displaceFactor * disp - displaceBias) * objectNormal;
         displace = modelMat * displace;
@@ -42,6 +43,18 @@ void main() {
     } else if (shapeType == 1) { // Cone
         vec4 rotatedPosition = rotationMat * vec4(objectPosition, 1);
         vec4 rotatedNormal = rotationMat * vec4(normalize(objectNormal), 1);
+        float heightDiff = 0.f;
+        if (height_time < 320) {
+            heightDiff = coneMult * height_time/320.f;
+        } else if (height_time < 640) {
+            heightDiff = coneMult * (1.f - ((height_time - 320.f)/320.f));
+        } else if (height_time < 960) {
+            heightDiff = coneMult * (height_time - 640.f)/320.f;
+        } else {
+            heightDiff = coneMult * (1.f - ((height_time - 960.f)/320.f));
+        }
+        rotatedPosition.y += heightDiff;
+        rotatedNormal.y += heightDiff;
         worldPosition = vec3(modelMat * rotatedPosition);
         worldNormal = itModelMat * vec3(normalize(rotatedNormal)); // also transposed
         gl_Position = (projMat * (viewMat * vec4(worldPosition, 1)));

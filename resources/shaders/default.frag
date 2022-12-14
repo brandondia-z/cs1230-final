@@ -63,8 +63,7 @@ void main() {
         fragColor = texture(marble_sampler, vec2(uvCoords.x, uvCoords.y));
     } else if (shapeType == 1) {
         fragColor = texture(diamond_sampler, vec2(uvCoords.x, uvCoords.y));
-    }
-    if (shapeType != 6) { // not Plane and not Cone
+    } if (shapeType != 6) { // not Plane and not Cone
         // Add ambient component to output
         float red = ambient * materialAmbient.x;
         float green = ambient * materialAmbient.y;
@@ -150,8 +149,9 @@ void main() {
                         greenColor = lighting[i].color.y;
                         blueColor = lighting[i].color.z;
                     } else if (innerTheta < currAngle && currAngle <= outerTheta) {
-                        float falloff = -2.f * pow( (currAngle - innerTheta) / (outerTheta - innerTheta), 3.f) +
-                                3.f * pow( (currAngle - innerTheta) / (outerTheta - innerTheta), 2.f);
+//                        float falloff = -2.f * pow( (currAngle - innerTheta) / (outerTheta - innerTheta), 3.f) +
+//                                3.f * pow( (currAngle - innerTheta) / (outerTheta - innerTheta), 2.f);
+                        float falloff = 0.f;
                         redColor = lighting[i].color.x * (1.f - falloff);
                         greenColor = lighting[i].color.y * (1.f - falloff);
                         blueColor = lighting[i].color.z * (1.f - falloff);
